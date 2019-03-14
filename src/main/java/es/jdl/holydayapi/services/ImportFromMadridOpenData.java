@@ -1,12 +1,11 @@
 package es.jdl.holydayapi.services;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.internal.GsonBuildConfig;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
 import es.jdl.holydayapi.domain.City;
 import es.jdl.holydayapi.domain.Country;
@@ -16,8 +15,6 @@ import es.jdl.holydayapi.domain.Province;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,6 +55,7 @@ public class ImportFromMadridOpenData {
         spain.setIso("ES");
         spain.setName("SPAIN");
         spain.setLocale(new Locale("es_ES"));
+
         Province cam = new Province();
         cam.setCode("28");
         cam.setIso("ES-M");
@@ -66,10 +64,21 @@ public class ImportFromMadridOpenData {
         madrid.setCode("28079");
         madrid.setName("Madrid");
         madrid.setProvince(Ref.create(cam));
-
+        Key<Country> spainKey = ObjectifyService.ofy().save().entity(spain).now();
+        Ref<Country> spainRef = Ref.create(spainKey);
+        Key<Province> camKey = ObjectifyService.ofy().save().entity(cam).now();
+        Ref<Province> camRef = Ref.create(camKey);
+        Key<City> madridKey = ObjectifyService.ofy().save().entity(madrid).now();
+        Ref<City> madridRef = Ref.create(madridKey);
+        log.info("Ref fijos: " + spainRef + " " + camRef + " " + madridRef);
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        int lineNum = 0;
         while ((line = reader.readLine()) != null) {
-            String[] row = line.split(";");
+            lineNum++;
+            log.info("Header: " + line);
+            if (lineNum == 1) // skip header
+                continue;
+            String[] row = line.split(";", 5);
             Holyday h = new Holyday();
             try {
                 h.setDate(df.parse(row[0]));
@@ -78,29 +87,25 @@ public class ImportFromMadridOpenData {
                 continue;
             }
             if (row[2].contains("festivo")) {
-                if ("Festivo nacional".equalsIgnoreCase(row[3])) {
-                    h.setCountry(Ref.create(spain));
-                } else if ("Festivo de la Comunidad de Madrid".equalsIgnoreCase(row[3])) {
-                    h.setCountry(Ref.create(spain));
-                    h.setProvince(Ref.create(cam));
-                } else if ("Festivo local de la ciudad de Madrid".equalsIgnoreCase(row[3])) {
-                    h.setCountry(Ref.create(spain));
-                    h.setProvince(Ref.create(cam));
-                    h.setCity(Ref.create(madrid));
-                }
-                System.out.println(h);
+                if (row.length >= 2) {
+                    if ("Festivo nacional".equalsIgnoreCase(row[3])) {
+                        h.setCountry(spainRef);
+                    } else if ("Festivo de la Comunidad de Madrid".equalsIgnoreCase(row[3])) {
+                        h.setCountry(spainRef);
+                        h.setProvince(camRef);
+                    } else if ("Festivo local de la ciudad de Madrid".equalsIgnoreCase(row[3])) {
+                        h.setCountry(spainRef);
+                        h.setProvince(camRef);
+                        h.setCity(madridRef);
+                    } else {
+                        log.warning("Festivo sin 'tipo' " + line);
+                    }
+                    log.info("Guardando..." + h);
+                    ObjectifyService.ofy().save().entity(h).now();
+                } // existe festivo
             }
-            // tipos:
-            // sabado
-            // domingo
-            // Festivo nacional
-            // Festivo de la Comunidad de Madrid
-            // festivo;Festivo local de la ciudad de Madrid
-
         }
         reader.close();
-
-
     }
 
     /**

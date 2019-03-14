@@ -4,6 +4,14 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <servlet>
+        <servlet-name>holyday</servlet-name>
+        <servlet-class>es.jdl.holydayapi.services.HolydayService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>holyday</servlet-name>
+        <url-pattern>/holydays</url-pattern>
+    </servlet-mapping>
     <filter>
         <filter-name>ObjectifyFilter</filter-name>
         <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>

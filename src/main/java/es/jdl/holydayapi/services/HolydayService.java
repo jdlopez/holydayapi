@@ -18,11 +18,13 @@ public class HolydayService extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String[] uri = req.getRequestURI().split("/");
-        super.doGet(req, resp);
+        resp.setContentType("application/json");
+        // if object is null then 404
+        resp.getWriter().print(gson.toJson(findHolydays()));
+
     }
 
     protected List<Holyday> findHolydays() {
-        //ObjectifyService.ofy().load().
-        return null;
+        return ObjectifyService.ofy().load().type(Holyday.class).list();
     }
 }
