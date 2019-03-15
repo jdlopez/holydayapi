@@ -30,14 +30,14 @@ import java.util.logging.Logger;
  */
 public class ImportFromMadridOpenData {
 
-    private static final Logger log = Logger.getLogger(ImportFromMadridOpenData.class.getName());
+    private final Logger log = Logger.getLogger(this.getClass().getName());
 
     public void importHolydays() throws IOException {
 
         String urlCSV = null;
         JsonParser parser = new JsonParser();
         // todo: parametrize
-        JsonElement root = parser.parse(getURLContent("https://datos.madrid.es/egob/catalogo/title/Calendario%20laboral.json"));
+        JsonElement root = parser.parse(ServicesUtils.getURLContent("https://datos.madrid.es/egob/catalogo/title/Calendario%20laboral.json"));
         JsonArray dists = root.getAsJsonObject().get("result").getAsJsonObject().getAsJsonArray("items").get(0).getAsJsonObject().getAsJsonArray("distribution");
         for (int i = 0; i < dists.size(); i++) {
             JsonObject distItem = dists.get(i).getAsJsonObject();
@@ -108,21 +108,4 @@ public class ImportFromMadridOpenData {
         reader.close();
     }
 
-    /**
-     * Lee linea a linea ¿util o mejor getContent?
-     * @param url
-     * @return
-     * @throws IOException
-     */
-    protected String getURLContent(String url) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader((new URL(url)).openStream()));
-        StringBuffer json = new StringBuffer();
-        String line;
-
-        while ((line = reader.readLine()) != null) {
-            json.append(line);
-        }
-        reader.close();
-        return json.toString();
-    }
 }

@@ -46,4 +46,14 @@ public class Province {
     public void setCountry(Ref<Country> country) {
         this.country = country;
     }
+
+    @Override
+    public String toString() {
+        return "Province{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", iso='" + iso + '\'' +
+                ", country=" + country +
+                '}';
+    }
 }

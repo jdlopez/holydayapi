@@ -2,6 +2,7 @@ package es.jdl.holydayapi.domain;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
 
 import java.util.Locale;
 
@@ -11,6 +12,7 @@ public class Country {
     @Id
     private String iso;
     private String name;
+    @Ignore
     private Locale locale;
 
     public String getIso() {
@@ -35,5 +37,14 @@ public class Country {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "iso='" + iso + '\'' +
+                ", name='" + name + '\'' +
+                ", locale=" + locale +
+                '}';
     }
 }
