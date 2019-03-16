@@ -16,8 +16,8 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class TestCountriesProvince {
 
@@ -51,7 +51,7 @@ public class TestCountriesProvince {
         ObjectifyService.run(new VoidWork() {
              @Override
              public void vrun() {
-                 System.out.println(importProvinceCity.importCountries());
+                 importProvinceCity.importCountries().forEach(p -> System.out.println(p));
              }
          });
     }
@@ -61,7 +61,7 @@ public class TestCountriesProvince {
         ObjectifyService.run(new VoidWork() {
             @Override
             public void vrun() {
-                System.out.println(Arrays.toString(ObjectifyService.ofy().load().type(Country.class).list().toArray()));
+                ObjectifyService.ofy().load().type(Country.class).list().forEach(p -> System.out.println(p));
             }
         });
     }
@@ -71,7 +71,17 @@ public class TestCountriesProvince {
         ObjectifyService.run(new VoidWork() {
             @Override
             public void vrun() {
-                System.out.println(Arrays.toString(ObjectifyService.ofy().load().type(Province.class).list().toArray()));
+                ObjectifyService.ofy().load().type(Province.class).list().forEach(p -> System.out.println(p));
+            }
+        });
+    }
+
+    @Test
+    public void listCities() {
+        ObjectifyService.run(new VoidWork() {
+            @Override
+            public void vrun() {
+                ObjectifyService.ofy().load().type(City.class).list().forEach(p -> System.out.println(p));
             }
         });
     }
@@ -92,12 +102,32 @@ public class TestCountriesProvince {
             @Override
             public void vrun() {
                 try {
-                    System.out.println(importProvinceCity.importESProvinces());
+                    importProvinceCity.importESProvinces().forEach(p -> System.out.println(p));
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ParserConfigurationException e) {
                     e.printStackTrace();
                 } catch (SAXException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Test
+    public void testLoadMunicipios() {
+        ObjectifyService.run(new VoidWork() {
+            @Override
+            public void vrun() {
+                try {
+                    importProvinceCity.importESCities().forEach(p -> System.out.println(p));
+                } catch (ParserConfigurationException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (SAXException e) {
+                    e.printStackTrace();
+                } catch (XPathExpressionException e) {
                     e.printStackTrace();
                 }
             }
