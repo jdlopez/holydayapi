@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 
 public class TestCountriesProvince {
@@ -126,8 +125,6 @@ public class TestCountriesProvince {
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (SAXException e) {
-                    e.printStackTrace();
-                } catch (XPathExpressionException e) {
                     e.printStackTrace();
                 }
             }

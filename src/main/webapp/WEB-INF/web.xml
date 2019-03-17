@@ -8,10 +8,23 @@
         <servlet-name>holyday</servlet-name>
         <servlet-class>es.jdl.holydayapi.services.HolydayService</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>import</servlet-name>
+        <servlet-class>es.jdl.holydayapi.services.ImportService</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>holyday</servlet-name>
         <url-pattern>/holydays</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>import</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>es.jdl.holydayapi.config.AppConfig</listener-class>
+    </listener>
+
     <filter>
         <filter-name>ObjectifyFilter</filter-name>
         <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
@@ -20,7 +33,17 @@
         <filter-name>ObjectifyFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>admin</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

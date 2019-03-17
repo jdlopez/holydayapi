@@ -12,6 +12,8 @@ https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyserv
     
     gcloud beta emulators datastore start --host-port=localhost:8484
     
+    mvn appengine:run
+    
 >**watchout** "The Google Cloud Datastore emulator requires a Java 7+ JRE installed and on your system PATH" 
 **1.8 not 10 or 11**
     

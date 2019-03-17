@@ -12,7 +12,6 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -87,7 +86,7 @@ public class ImportProvinceCity {
         return ret;
     }
 
-    public List<City> importESCities() throws ParserConfigurationException, IOException, SAXException, XPathExpressionException {
+    public List<City> importESCities() throws ParserConfigurationException, IOException, SAXException {
         ArrayList<City> ret = new ArrayList<>();
         List<Province> provincias = ObjectifyService.ofy().load().type(Province.class).list();
         log.info("Encontradas provincias: " + provincias.size());

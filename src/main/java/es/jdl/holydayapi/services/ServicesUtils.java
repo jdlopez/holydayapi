@@ -1,9 +1,13 @@
 package es.jdl.holydayapi.services;
 
+import com.google.gson.Gson;
+
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -11,6 +15,34 @@ import java.net.URLEncoder;
 import java.util.Map;
 
 public class ServicesUtils {
+
+    /** escribe el objeto pasado en formato JSON como respuesta HTTP */
+    public static void writeJSONResponse(HttpServletResponse resp, Object respObj) throws IOException {
+        if (respObj == null)
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Result is NULL");
+        else {
+            Gson gson = new Gson();
+            resp.setContentType("application/json");
+            PrintWriter writer = resp.getWriter();
+            writer.print(gson.toJson(respObj));
+            writer.flush();
+        }
+    }
+
+    /**
+     * Gestion basica de errores para servicios REST
+     * @param resp
+     * @param cause
+     * @throws IOException
+     */
+    public static void returnException(HttpServletResponse resp, Throwable cause) throws IOException {
+        resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                "{ \"error\": \"" + (
+                cause.getMessage() + cause.getCause()==null?"":
+                " caused by: " + cause.getCause().getMessage()) +
+                "\"}");
+    }
+
     /**
      * Lee linea a linea ¿util o mejor getContent?
      * @param url
