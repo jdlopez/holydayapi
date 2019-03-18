@@ -90,17 +90,23 @@ public class ImportProvinceCity {
         ArrayList<City> ret = new ArrayList<>();
         List<Province> provincias = ObjectifyService.ofy().load().type(Province.class).list();
         log.info("Encontradas provincias: " + provincias.size());
-        String url = "http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.asmx/ConsultaMunicipioCodigos";
+        for (Province prov: provincias) {
+            ret.addAll( importESCitiesByProvince(prov) );
+        } // for provincias
+        return ret;
+    }
+
+    public List<City> importESCitiesByProvince(Province prov) throws ParserConfigurationException, IOException, SAXException {
+        ArrayList<City> ret = new ArrayList<>();
+        log.info("Buscando municipios con : " + prov.getCode());
         Map<String, Object> params = new HashMap<>(3);
         params.put("CodigoMunicipio", "");
         params.put("CodigoMunicipioIne", "");
-        for (Province prov: provincias) {
-            log.info("Buscando municipios con : " + prov.getCode());
-            params.put("CodigoProvincia", prov.getCode());
-            Ref<Province> provinceRef = Ref.create(prov);
-            String content = ServicesUtils.getPostContent(url, params);
-            //System.out.println(content);
-            Document dom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(content.getBytes()));
+        params.put("CodigoProvincia", prov.getCode());
+        Ref<Province> provinceRef = Ref.create(prov);
+        String url = "http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.asmx/ConsultaMunicipioCodigos";
+        String content = ServicesUtils.getPostContent(url, params);
+        Document dom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(content.getBytes()));
             /*
             <muni>
                 <nm>LA ACEBEDA</nm>
@@ -114,27 +120,26 @@ public class ImportProvinceCity {
                 </loine>
             </muni>
              */
-            NodeList munis = dom.getElementsByTagName("muni");
-            log.info("Localizados " + munis.getLength() + " munis");
-            for (int i = 0; i < munis.getLength(); ++i) {
-                Element e = (Element) munis.item(i);
-                City city = new City();
-                city.setProvince(provinceRef);
-                NodeList nlINE = e.getElementsByTagName("loine");
-                if (nlINE != null && nlINE.getLength() > 0) {
-                    Element nINE = (Element) nlINE.item(0);
-                    city.setName(getChildValue(e, "nm"));
-                    city.setCode(prov.getCode() + String.format("%03d", Integer.parseInt(getChildValue(nINE, "cm"))));
-                    if (city.getCode() != null && city.getName() != null) {
-                        ObjectifyService.ofy().save().entity(city).now();
-                        ret.add(city);
-                        log.info("Guardado: " + city);
-                    } else {
-                        log.warning("No encontrado datos para " + e);
-                    }
+        NodeList munis = dom.getElementsByTagName("muni");
+        log.info("Localizados " + munis.getLength() + " munis");
+        for (int i = 0; i < munis.getLength(); ++i) {
+            Element e = (Element) munis.item(i);
+            City city = new City();
+            city.setProvince(provinceRef);
+            NodeList nlINE = e.getElementsByTagName("loine");
+            if (nlINE != null && nlINE.getLength() > 0) {
+                Element nINE = (Element) nlINE.item(0);
+                city.setName(getChildValue(e, "nm"));
+                city.setCode(prov.getCode() + String.format("%03d", Integer.parseInt(getChildValue(nINE, "cm"))));
+                if (city.getCode() != null && city.getName() != null) {
+                    ObjectifyService.ofy().save().entity(city).now();
+                    ret.add(city);
+                    log.info("Guardado: " + city);
+                } else {
+                    log.warning("No encontrado datos para " + e);
                 }
-            } // for municipios
-        } // for provincias
+            }
+        } // for municipios
         return ret;
     }
 

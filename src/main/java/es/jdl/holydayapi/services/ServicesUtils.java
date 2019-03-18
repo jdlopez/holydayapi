@@ -1,9 +1,17 @@
 package es.jdl.holydayapi.services;
 
+import com.google.appengine.api.urlfetch.HTTPHeader;
+import com.google.appengine.api.urlfetch.HTTPMethod;
+import com.google.appengine.api.urlfetch.HTTPRequest;
+import com.google.appengine.api.urlfetch.HTTPResponse;
+import com.google.appengine.api.urlfetch.URLFetchService;
+import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,7 +29,8 @@ public class ServicesUtils {
         if (respObj == null)
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Result is NULL");
         else {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder()
+                    .setDateFormat("dd/MM/yyyy HH:mm:ss").create();
             resp.setContentType("application/json");
             PrintWriter writer = resp.getWriter();
             writer.print(gson.toJson(respObj));
@@ -50,15 +59,9 @@ public class ServicesUtils {
      * @throws IOException
      */
     public static String getURLContent(String url) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader((new URL(url)).openStream()));
-        StringBuffer text = new StringBuffer();
-        String line;
-
-        while ((line = reader.readLine()) != null) {
-            text.append(line);
-        }
-        reader.close();
-        return text.toString();
+        URLFetchService urlFetch = URLFetchServiceFactory.getURLFetchService();
+        HTTPResponse response = urlFetch.fetch(new URL(url));
+        return new String(response.getContent());
     }
 
     /**
@@ -70,6 +73,8 @@ public class ServicesUtils {
      */
     public static InputStream getPostContentStream(String url, Map<String, Object> params) throws IOException {
         URL postUrl = new URL(url);
+        URLFetchService urlFetch = URLFetchServiceFactory.getURLFetchService();
+        HTTPRequest request = new HTTPRequest(postUrl, HTTPMethod.POST);
 
         StringBuilder postData = new StringBuilder();
         for (Map.Entry<String,Object> param : params.entrySet()) {
@@ -80,14 +85,12 @@ public class ServicesUtils {
         }
         byte[] postDataBytes = postData.toString().getBytes("UTF-8");
 
-        HttpURLConnection conn = (HttpURLConnection)postUrl.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
-        conn.setDoOutput(true);
-        conn.getOutputStream().write(postDataBytes);
+        request.setHeader(new HTTPHeader("Content-Type", "application/x-www-form-urlencoded"));
+        request.setHeader(new HTTPHeader("Content-Length", String.valueOf(postDataBytes.length)));
+        request.setPayload(postDataBytes);
+        HTTPResponse response = urlFetch.fetch(request);
 
-        return conn.getInputStream();
+        return new ByteArrayInputStream(response.getContent());
     }
 
     public static String getPostContent(String url, Map<String, Object> params) throws IOException {

@@ -12,6 +12,10 @@
         <servlet-name>import</servlet-name>
         <servlet-class>es.jdl.holydayapi.services.ImportService</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>list</servlet-name>
+        <servlet-class>es.jdl.holydayapi.services.ListDataService</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>holyday</servlet-name>
         <url-pattern>/holydays</url-pattern>
@@ -19,6 +23,10 @@
     <servlet-mapping>
         <servlet-name>import</servlet-name>
         <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>list</servlet-name>
+        <url-pattern>/list/*</url-pattern>
     </servlet-mapping>
 
     <listener>

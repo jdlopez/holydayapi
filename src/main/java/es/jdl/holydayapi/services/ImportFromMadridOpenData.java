@@ -15,6 +15,7 @@ import es.jdl.holydayapi.domain.Province;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,9 +47,6 @@ public class ImportFromMadridOpenData {
                 urlCSV =  distItem.get("accessURL").getAsString();
         } // end for
         log.info("getting holidays from: " + urlCSV);
-        BufferedReader reader = new BufferedReader(new InputStreamReader((new URL(urlCSV)).openStream()));
-        StringBuffer json = new StringBuffer();
-        String line;
         // FORMATO:
         // Dia;Dia_semana;laborable / festivo / domingo festivo;Tipo de Festivo;Festividad
         Country spain = new Country(); // SPAIN ES ESP 724
@@ -72,6 +70,10 @@ public class ImportFromMadridOpenData {
         Ref<City> madridRef = Ref.create(madridKey);
         log.info("Ref fijos: " + spainRef + " " + camRef + " " + madridRef);
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+        BufferedReader reader = new BufferedReader(new StringReader(ServicesUtils.getURLContent(urlCSV)));
+        StringBuffer json = new StringBuffer();
+        String line;
         int lineNum = 0;
         while ((line = reader.readLine()) != null) {
             lineNum++;

@@ -6,7 +6,7 @@
 
     <groupId>es.jdl</groupId>
     <artifactId>holydayapi</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.4</version>
     <packaging>war</packaging>
 
     <properties>
