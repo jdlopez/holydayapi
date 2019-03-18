@@ -3,4 +3,5 @@
     <runtime>java8</runtime>
     <threadsafe>true</threadsafe>
     <application>holydayapi</application>
+	<url-stream-handler>urlfetch</url-stream-handler>
 </appengine-web-app>
