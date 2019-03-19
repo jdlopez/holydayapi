@@ -8,6 +8,8 @@ import com.google.appengine.api.urlfetch.URLFetchService;
 import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.googlecode.objectify.Ref;
+import es.jdl.holydayapi.config.GsonRefSerializer;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -24,13 +26,14 @@ import java.util.Map;
 
 public class ServicesUtils {
 
+    private static Gson gson = new GsonBuilder()
+            .setDateFormat("dd/MM/yyyy HH:mm:ss").registerTypeAdapter(Ref.class, new GsonRefSerializer()).create();
+
     /** escribe el objeto pasado en formato JSON como respuesta HTTP */
     public static void writeJSONResponse(HttpServletResponse resp, Object respObj) throws IOException {
         if (respObj == null)
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Result is NULL");
         else {
-            Gson gson = new GsonBuilder()
-                    .setDateFormat("dd/MM/yyyy HH:mm:ss").create();
             resp.setContentType("application/json");
             PrintWriter writer = resp.getWriter();
             writer.print(gson.toJson(respObj));

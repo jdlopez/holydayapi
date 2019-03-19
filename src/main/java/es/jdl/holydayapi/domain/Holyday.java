@@ -3,16 +3,17 @@ package es.jdl.holydayapi.domain;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Stringify;
-import com.googlecode.objectify.stringifier.Stringifier;
+import com.googlecode.objectify.annotation.Index;
 
 import java.util.Date;
 
 @Entity
 public class Holyday {
     @Id
-    private Long id;// just for data storage
+    transient private Long id;// just for data storage
+    @Index
     private Date date;
+    private String name;
     private Ref<City> city;
     private Ref<Province> province;
     private Ref<Country> country;
@@ -55,6 +56,14 @@ public class Holyday {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
