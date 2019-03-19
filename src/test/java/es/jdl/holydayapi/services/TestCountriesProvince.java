@@ -6,21 +6,22 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
+import es.jdl.holydayapi.config.DbConfig;
 import es.jdl.holydayapi.domain.City;
 import es.jdl.holydayapi.domain.Country;
 import es.jdl.holydayapi.domain.Holyday;
 import es.jdl.holydayapi.domain.Province;
+import es.jdl.holydayapi.services.importers.EntityImporter;
+import es.jdl.holydayapi.services.importers.ImportDataException;
+import es.jdl.holydayapi.services.importers.ImporterCountry;
+import es.jdl.holydayapi.services.importers.ImporterESCity;
+import es.jdl.holydayapi.services.importers.ImporterESProvince;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 
 public class TestCountriesProvince {
 
-    ImportProvinceCity importProvinceCity = new ImportProvinceCity();
     private final LocalServiceTestHelper helper =
             new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
@@ -45,88 +46,73 @@ public class TestCountriesProvince {
         helper.tearDown();
     }
 
+    private void runImporter(EntityImporter<?> importer) {
+        ObjectifyService.run(new VoidWork() {
+            @Override
+            public void vrun() {
+                try {
+                    importer.readAndSave().forEach(p -> System.out.println(p));
+                } catch (ImportDataException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void runList(Class<?> clazz) {
+        ObjectifyService.run(new VoidWork() {
+            @Override
+            public void vrun() {
+                ObjectifyService.ofy().load().type(clazz).list().forEach(p -> System.out.println(p));
+            }
+        });
+    }
+
     @Test
     public void testCountries() {
-        ObjectifyService.run(new VoidWork() {
-             @Override
-             public void vrun() {
-                 importProvinceCity.importCountries().forEach(p -> System.out.println(p));
-             }
-         });
+        runImporter(new ImporterCountry());
     }
 
     @Test
     public void listCountries() {
-        ObjectifyService.run(new VoidWork() {
-            @Override
-            public void vrun() {
-                ObjectifyService.ofy().load().type(Country.class).list().forEach(p -> System.out.println(p));
-            }
-        });
+        runList(Country.class);
     }
 
     @Test
     public void listProvinces() {
-        ObjectifyService.run(new VoidWork() {
-            @Override
-            public void vrun() {
-                ObjectifyService.ofy().load().type(Province.class).list().forEach(p -> System.out.println(p));
-            }
-        });
+        runList(Province.class);
     }
 
     @Test
     public void listCities() {
-        ObjectifyService.run(new VoidWork() {
-            @Override
-            public void vrun() {
-                ObjectifyService.ofy().load().type(City.class).list().forEach(p -> System.out.println(p));
-            }
-        });
-    }
-
-    @Test
-    public void testSpain() {
-        ObjectifyService.run(new VoidWork() {
-            @Override
-            public void vrun() {
-                System.out.println(importProvinceCity.getSpain());
-            }
-        });
+        runList(City.class);
     }
 
     @Test
     public void testLoadProvincias() {
-        ObjectifyService.run(new VoidWork() {
-            @Override
-            public void vrun() {
-                try {
-                    importProvinceCity.importESProvinces().forEach(p -> System.out.println(p));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ParserConfigurationException e) {
-                    e.printStackTrace();
-                } catch (SAXException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        ImporterESProvince imp = new ImporterESProvince();
+        imp.configure(null, null);
+        runImporter(imp);
     }
 
     @Test
     public void testLoadMunicipios() {
+        ImporterESCity imp = new ImporterESCity();
+        imp.configure(null, new DbConfig());
+        runImporter(imp);
+    }
+
+    @Test
+    public void filter() {
         ObjectifyService.run(new VoidWork() {
             @Override
             public void vrun() {
-                try {
-                    importProvinceCity.importESCities().forEach(p -> System.out.println(p));
-                } catch (ParserConfigurationException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (SAXException e) {
-                    e.printStackTrace();
-                }
+                Province madrid = ObjectifyService.ofy().load().type(Province.class).id("28").now();
+                System.out.println("Madrid? " + madrid);
+                ObjectifyService.ofy().load().type(City.class)
+                        .filter("province", madrid).list()
+                        .forEach(p -> System.out.println(p));
             }
         });
     }

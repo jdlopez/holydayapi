@@ -10,6 +10,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.googlecode.objectify.Ref;
 import es.jdl.holydayapi.config.GsonRefSerializer;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -19,7 +21,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -104,6 +105,14 @@ public class ServicesUtils {
             sb.append((char)c);
         in.close();
         return sb.toString();
+    }
+
+    public static String getChildValue(Element e, String tagName) {
+        NodeList nl = e.getElementsByTagName(tagName);
+        if (nl != null && nl.getLength() > 0)
+            return nl.item(0).getTextContent();
+        else
+            return null;
     }
 
 }

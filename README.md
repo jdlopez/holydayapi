@@ -1,8 +1,53 @@
 # HOLYDAY API
 
-GAE app
+Holyday REST API. You can obtain a list of days excluded from work-calendar.
 
-TODO: explain a lot!!
+Deployed as Google Application Engine (Standard) Web Application.
+
+You can check it at: [https://holydayapi.appspot.com/holydays](https://holydayapi.appspot.com/holydays)
+
+Actual focus: Spanish holydays
+
+## Español
+
+API para la consulta de calendarios laborales desplegado en un entorno abierto y gratuito.
+
+> Si se abusa del uso tendré que limitarlo, por favor úsalo como fuente para tu propio almacenamiento.
+No para 
+
+_Prefijo para todas las llamadas:_
+ 
+    https://holydayapi.appspot.com/
+    
+* **/holydays** consulta las vacaciones disponibles, tiene varios parámetros
+    - year : año de consulta, si no se especifica, toma el actual
+    - country: código iso del país a consultar (por defecto ES)
+    - province: código INE de la provincia, incluye también los festivos nacionales (en realidad los fija la Comunidad Autónoma)
+    - city: código INE del municipio, se incluyen festivos nacionales y de la C.A.
+    
+* **/list/country**    consulta los paises. La lista se obtiene de los códigos de Locale de Java (guardados en bbdd)
+    
+    {
+    "iso": "ES",
+    "name": "SPAIN"
+    }
+    
+* **/list/province**   consulta las provincias de España. Con su código del INE
+
+    {
+    "code": "02",
+    "name": "ALBACETE",
+    "country": "ES"
+    }
+
+* **/list/city**       consulta los municipios (no sólo ciudades) de una provincia. Hay que incluir un parameter _'prov'_
+
+    {
+    "code": "02001",
+    "name": "ABENGIBRE"
+    "province": "02",
+    }
+    
 
 ## Test configuration
 

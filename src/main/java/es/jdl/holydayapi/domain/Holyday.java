@@ -14,8 +14,11 @@ public class Holyday {
     @Index
     private Date date;
     private String name;
+    @Index
     private Ref<City> city;
+    @Index
     private Ref<Province> province;
+    @Index
     private Ref<Country> country;
 
     public Date getDate() {

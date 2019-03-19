@@ -1,12 +1,10 @@
-package es.jdl.holydayapi.services;
+package es.jdl.holydayapi.services.rest;
 
 import com.google.gson.Gson;
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.cmd.Query;
-import es.jdl.holydayapi.domain.Country;
 import es.jdl.holydayapi.domain.Holyday;
+import es.jdl.holydayapi.services.ServicesUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class HolydayService extends HttpServlet {
+public class HolydayRESTService extends HttpServlet {
 
     Gson gson = new Gson();
 

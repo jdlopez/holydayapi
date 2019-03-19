@@ -6,15 +6,15 @@
          version="3.1">
     <servlet>
         <servlet-name>holyday</servlet-name>
-        <servlet-class>es.jdl.holydayapi.services.HolydayService</servlet-class>
+        <servlet-class>es.jdl.holydayapi.services.rest.HolydayRESTService</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>import</servlet-name>
-        <servlet-class>es.jdl.holydayapi.services.ImportService</servlet-class>
+        <servlet-class>es.jdl.holydayapi.services.rest.ImportRESTService</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>list</servlet-name>
-        <servlet-class>es.jdl.holydayapi.services.ListDataService</servlet-class>
+        <servlet-class>es.jdl.holydayapi.services.rest.ListDataService</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>holyday</servlet-name>

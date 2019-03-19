@@ -3,6 +3,7 @@ package es.jdl.holydayapi.domain;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 @Entity
 public class City {
@@ -10,6 +11,7 @@ public class City {
     @Id
     private String code;
     private String name;
+    @Index
     private Ref<Province> province;
 
     public String getCode() {
