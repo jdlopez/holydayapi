@@ -28,7 +28,7 @@ import static es.jdl.holydayapi.services.ServicesUtils.getURLContent;
 
 /**
  * Importador de datos del ayuntamiento de Madrid.
- * <a href="https://datos.madrid.es">Datos Madrid.defaultCountry</a>
+ * <a href="https://datos.madrid.es">Datos Madrid.es</a>
  * <a href="https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=9f710c96da3f9510VgnVCM2000001f4a900aRCRD&vgnextchannel=374512b9ace9f310VgnVCM100000171f5a0aRCRD&vgnextfmt=default">
  *     Catalogo festivos ciudad de Madrid (incluye CAM y Estado)</a>
  * @author jdlopez
@@ -50,7 +50,7 @@ public class ImporterMadridOpenData implements EntityImporter<Holyday> {
         JsonParser parser = new JsonParser();
         try {
             JsonElement root = parser.parse(
-                    getURLContent("https://datos.madrid.defaultCountry/egob/catalogo/title/Calendario%20laboral.json"));
+                    getURLContent("https://datos.madrid.es/egob/catalogo/title/Calendario%20laboral.json"));
             JsonArray dists = root.getAsJsonObject().get("result").getAsJsonObject()
                     .getAsJsonArray("items").get(0).getAsJsonObject().getAsJsonArray("distribution");
             for (int i = 0; i < dists.size(); i++) {
@@ -94,9 +94,13 @@ public class ImporterMadridOpenData implements EntityImporter<Holyday> {
                 if (lineNum == 1) // skip header
                     continue;
                 String[] row = line.split(";", 5);
+                // Dia;Dia_semana;laborable / festivo / domingo festivo;Tipo de Festivo;Festividad
+                // 0   1          2                                     3               4
                 Holyday h = new Holyday();
                 try {
                     h.setDate(df.parse(row[0]));
+                    if (row.length > 4)
+                        h.setName(row[4]);
                 } catch (ParseException e) {
                     log.warning(row[0] + " fecha no valida: " + e.getLocalizedMessage());
                     continue;

@@ -16,6 +16,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,13 +29,13 @@ import static es.jdl.holydayapi.services.ServicesUtils.getChildValue;
  * Importador de municipios españoles usando servicio de Catastro. Los datos son del INE
  * @author jdlopez
  */
-public class ImporterESCity implements EntityImporter<City> {
+public class ImporterESCity implements EntityImporter<City>, Serializable {
 
     private Province provincia; // si se rellena se importa solo una provincia, en otro caso TODAS
 
-    private final Logger log = Logger.getLogger(this.getClass().getName());
-
     private List<City> importESCitiesByProvince(Province prov) throws ImportDataException {
+        // ojo log no es serializable
+        Logger log = Logger.getLogger(this.getClass().getName());
         ArrayList<City> ret = new ArrayList<>();
         log.info("Buscando municipios con : " + prov.getCode());
         Map<String, Object> params = new HashMap<>(3);
@@ -42,7 +43,7 @@ public class ImporterESCity implements EntityImporter<City> {
         params.put("CodigoMunicipioIne", "");
         params.put("CodigoProvincia", prov.getCode());
         Ref<Province> provinceRef = Ref.create(prov);
-        String url = "http://ovc.catastro.meh.defaultCountry/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.asmx/ConsultaMunicipioCodigos";
+        String url = "http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.asmx/ConsultaMunicipioCodigos";
         String content = null;
         try {
             content = ServicesUtils.getPostContent(url, params);
@@ -99,6 +100,8 @@ public class ImporterESCity implements EntityImporter<City> {
 
     @Override
     public List<City> readAndSave() throws ImportDataException {
+        // ojo log no es serializable
+        Logger log = Logger.getLogger(this.getClass().getName());
         List<City> ret = new ArrayList<>();
         if (this.provincia == null) { // importamos todas
             log.info("IMPORTACION SIN FILTRO. PUEDE TARDAR");

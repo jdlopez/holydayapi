@@ -33,7 +33,7 @@ public class ImporterESProvince implements EntityImporter<Province> {
     @Override
     public void configure(HttpServletRequest request, DbConfig config) {
         this.defaultCountry = ObjectifyService.ofy().load().type(Country.class).id("ES").now();
-        provinceESurl = "http://ovc.catastro.meh.defaultCountry/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.asmx/ConsultaProvincia";
+        provinceESurl = "http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.asmx/ConsultaProvincia";
         if (config != null) {
             provinceESurl = config.getProperty("catastro_provincia", provinceESurl);
         }

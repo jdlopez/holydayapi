@@ -2,6 +2,7 @@ package es.jdl.holydayapi.services;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
@@ -20,18 +21,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class TestCountriesProvince {
 
     private final LocalServiceTestHelper helper =
             new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         helper.setUp();
         ObjectifyService.init(new ObjectifyFactory(
                 DatastoreOptions.newBuilder()
-                        .setHost("http://localhost:8484")
-                        .setProjectId("my-project")
+                        //.setHost("http://holydayapi.appspot.com:8484")
+                        .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("d:\\.ddj\\holydayapi-ee295d54ec6f.json")))
+                        .setProjectId("holydayapi")
                         .build()
                         .getService()
         ));
@@ -110,6 +116,11 @@ public class TestCountriesProvince {
             public void vrun() {
                 Province madrid = ObjectifyService.ofy().load().type(Province.class).id("28").now();
                 System.out.println("Madrid? " + madrid);
+                System.out.println("Query using value:");
+                ObjectifyService.ofy().load().type(City.class)
+                        .filter("province.code =", "28").list()
+                        .forEach(p -> System.out.println(p));
+                System.out.println("Query using object:");
                 ObjectifyService.ofy().load().type(City.class)
                         .filter("province", madrid).list()
                         .forEach(p -> System.out.println(p));

@@ -18,6 +18,7 @@ public class AppConfig implements ServletContextListener {
         ObjectifyService.register(Province.class);
         ObjectifyService.register(Country.class);
         ObjectifyService.register(Holyday.class);
+        ObjectifyService.register(ConfigEntry.class);
     }
 
     @Override

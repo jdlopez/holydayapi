@@ -5,6 +5,7 @@ import com.googlecode.objectify.Ref;
 import es.jdl.holydayapi.config.DbConfig;
 import es.jdl.holydayapi.domain.City;
 import es.jdl.holydayapi.domain.Holyday;
+import es.jdl.holydayapi.services.ServicesUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -33,7 +34,7 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
 
     @Override
     public void configure(HttpServletRequest request, DbConfig config) {
-        this.url  = config.getProperty("base_url", "https://calendarios.ideal.defaultCountry/laboral/")
+        this.url  = config.getProperty("base_url", "https://calendarios.ideal.es/laboral/")
                 + request.getParameter("uriSuffix");
         this.userAgent = config.getProperty("user_agent", "Mozilla/5.0");
         this.timeout = config.getIntProperty("timeout", "100000");
@@ -46,11 +47,10 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
     public List<Holyday> readAndSave() throws ImportDataException {
         List<Holyday> ret = new ArrayList<>();
         try {
-            Connection.Response response = Jsoup.connect(url).userAgent(userAgent)
-                        .timeout(timeout)
-                        .ignoreHttpErrors(true).execute();
-            if (response.statusCode() == 200) {
-                Document doc = response.parse();
+            String content = ServicesUtils.getURLContent(url);
+
+            if (content != null) {
+                Document doc = Jsoup.parse(content);
                 // <td class="bm-calendar-state-autonomico" title="Lunes de Pascua">22</td>
                 Holyday h = new Holyday();
                 h.setCity(Ref.create(city));

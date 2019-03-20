@@ -5,6 +5,7 @@ import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 import es.jdl.holydayapi.config.DbConfig;
 import es.jdl.holydayapi.services.ImportDeferred;
+import es.jdl.holydayapi.services.SharedDataDao;
 import es.jdl.holydayapi.services.importers.ImportDataException;
 import es.jdl.holydayapi.services.importers.ImporterCityScrapper;
 import es.jdl.holydayapi.services.importers.ImporterCountry;
@@ -24,8 +25,6 @@ import static es.jdl.holydayapi.services.ServicesUtils.writeJSONResponse;
  * Servicio REST de pega para lanzar cargas o importaciones (se puede usar como cron una vez al año)
  */
 public class ImportRESTService extends HttpServlet {
-
-    private ImporterMadridOpenData importerMadrid = new ImporterMadridOpenData();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

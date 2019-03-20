@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import es.jdl.holydayapi.services.ServicesUtils;
 import static es.jdl.holydayapi.services.ServicesUtils.writeJSONResponse;
+import es.jdl.holydayapi.services.SharedDataDao;
 
 /**
  * REST Service (servlet) list datasotore entities: country, province, city (filtered by prov)
@@ -33,11 +35,16 @@ public class ListDataService extends HttpServlet {
                     ObjectifyService.ofy().load().type(Province.class).list()
             );
         } else if ("city".equalsIgnoreCase(entity)) {
-            String province = req.getParameter("prov");
-            Query<City> query = ObjectifyService.ofy().load().type(City.class);
-            writeJSONResponse(resp,
-                query.filter("province", province).list()
-            );
+            String provCode = req.getParameter("prov");
+            Province prov = ObjectifyService.ofy().load().type(Province.class).id(provCode).now();
+            if (prov != null) {
+                Query<City> query = ObjectifyService.ofy().load().type(City.class);
+                writeJSONResponse(resp,
+                    query.filter("province", prov).list()
+                );
+            } else {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Province " + provCode + " not found");
+            }
         } else {
             // maybe invalid input? 400?
             writeJSONResponse(resp, null);
