@@ -1,13 +1,8 @@
 package es.jdl.holydayapi.services.rest;
 
-import com.google.gson.Gson;
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
-import es.jdl.holydayapi.domain.City;
-import es.jdl.holydayapi.domain.Country;
 import es.jdl.holydayapi.domain.Holyday;
-import es.jdl.holydayapi.domain.Province;
 import es.jdl.holydayapi.services.ServicesUtils;
 import es.jdl.holydayapi.services.SharedDataDao;
 
@@ -19,7 +14,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HolydayRESTService extends HttpServlet {
 
@@ -53,29 +47,29 @@ public class HolydayRESTService extends HttpServlet {
             query = query.filter("date >=", since).filter("date <", nextYear);
         }
         List<Holyday> ret = query.list();
-        if (country != null) {
-            Key<Country> countryKey = Key.create(country);
-            for (Holyday h: ret)
-                if (!h.getCountry().equivalent(countryKey))
-                    ret.remove(h);
+        /*
+        Key<Country> countryKey = null;
+        Key<Province> provKey = null;
+        Key<City> cityKey = null;
+        Key<Province> provCityKey = null;
+        if (country != null)
+            countryKey = Key.create(country);
+        if (province != null)
+            provKey = Key.create(province);
+        if (city != null)
+            cityKey = Key.create(city);
+        if (city != null)
+            provCityKey = Key.create(city.substring(0, 2));
+        for (Holyday h: ret) {
+            if (country != null && !h.getCountry().equivalent(countryKey))
+                ret.remove(h);
+            else if (province != null &&
+                    (!h.getProvince().equivalent(provKey) || !h.getProvince().equivalent(provCityKey)))
+                ret.remove(h);
+            else if (city != null && !h.getCity().equivalent(cityKey))
+                ret.remove(h);
         }
-        if (province != null) {
-            /*
-            Key<Province> provKey = Key.create(province);
-            Key<Country> countryKey = Key.create(country);
-            for (Holyday h: ret)
-                if (!h.getProvince().equivalent(provKey) && h.getCountry())
-                    ret.remove(h);
-                    */
-        }
-        if (city != null) {
-            /* ojo hay q incluir tb regionales y country
-            Key<City> cityKey = Key.create(city);
-            for (Holyday h: ret)
-                if (!h.getCity().equivalent(cityKey))
-                    ret.remove(h);
-                    */
-        }
+        */
         return ret;
     }
 }

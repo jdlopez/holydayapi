@@ -6,7 +6,6 @@ import es.jdl.holydayapi.config.DbConfig;
 import es.jdl.holydayapi.domain.City;
 import es.jdl.holydayapi.domain.Holyday;
 import es.jdl.holydayapi.services.ServicesUtils;
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -31,6 +30,7 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
     private String monthClass;
     private City city;
     private final Logger log = Logger.getLogger(this.getClass().getName());
+    private String provinceHolydayClass;
 
     @Override
     public void configure(HttpServletRequest request, DbConfig config) {
@@ -39,6 +39,7 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
         this.userAgent = config.getProperty("user_agent", "Mozilla/5.0");
         this.timeout = config.getIntProperty("timeout", "100000");
         this.cityHolydayClass = config.getProperty("cityHolydayClass", "bm-calendar-state-local");
+        this.provinceHolydayClass = config.getProperty("provinceHolydayClass", "bm-calendar-state-autonomico");
         this.monthClass = config.getProperty("monthClass", "bm-calendar-month-title");
         this.city = ObjectifyService.ofy().load().type(City.class).id(request.getParameter("city")).now();
     }
@@ -48,15 +49,15 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
         List<Holyday> ret = new ArrayList<>();
         try {
             String content = ServicesUtils.getURLContent(url);
-
             if (content != null) {
                 Document doc = Jsoup.parse(content);
-                // <td class="bm-calendar-state-autonomico" title="Lunes de Pascua">22</td>
                 Holyday h = new Holyday();
                 h.setCity(Ref.create(city));
                 h.setProvince(city.getProvince());
                 h.setCountry(city.getProvince().get().getCountry());
                 ret.addAll(parseHtml(h, doc.getElementsByClass(cityHolydayClass)));
+                h.setCity(null);
+                ret.addAll(parseHtml(h, doc.getElementsByClass(provinceHolydayClass)));
             }
         } catch (IOException e) {
             throw new ImportDataException(e.getMessage(), e);
