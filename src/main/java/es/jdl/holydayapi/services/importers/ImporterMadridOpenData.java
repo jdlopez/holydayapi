@@ -85,7 +85,6 @@ public class ImporterMadridOpenData implements EntityImporter<Holyday> {
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
             BufferedReader reader = new BufferedReader(new StringReader(getURLContent(urlCSV)));
-            StringBuffer json = new StringBuffer();
             String line;
             int lineNum = 0;
             while ((line = reader.readLine()) != null) {

@@ -17,6 +17,9 @@ import es.jdl.holydayapi.services.importers.ImportDataException;
 import es.jdl.holydayapi.services.importers.ImporterCountry;
 import es.jdl.holydayapi.services.importers.ImporterESCity;
 import es.jdl.holydayapi.services.importers.ImporterESProvince;
+import es.jdl.holydayapi.services.importers.ImporterINEMunicipios;
+import es.jdl.holydayapi.services.importers.ImporterINEProvincia;
+import es.jdl.holydayapi.services.importers.ImporterMadridOpenData;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,31 +28,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class TestCountriesProvince {
-
-    private final LocalServiceTestHelper helper =
-            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+public class TestCountriesProvince extends BaseObjectyfyTest {
 
     @Before
     public void setUp() throws IOException {
-        helper.setUp();
-        ObjectifyService.init(new ObjectifyFactory(
-                DatastoreOptions.newBuilder()
-                        //.setHost("http://holydayapi.appspot.com:8484")
-                        .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("d:\\.ddj\\holydayapi-ee295d54ec6f.json")))
-                        .setProjectId("holydayapi")
-                        .build()
-                        .getService()
-        ));
-        ObjectifyService.register(City.class);
-        ObjectifyService.register(Province.class);
-        ObjectifyService.register(Country.class);
-        ObjectifyService.register(Holyday.class);
+        super.setUpBase();
     }
 
     @After
     public void tearDown() {
-        helper.tearDown();
+        super.tearDownBase();
     }
 
     private void runImporter(EntityImporter<?> importer) {
@@ -96,16 +84,37 @@ public class TestCountriesProvince {
     }
 
     @Test
-    public void testLoadProvincias() {
+    public void testLoadProvinciasCatastro() throws ImportDataException {
         ImporterESProvince imp = new ImporterESProvince();
         imp.configure(null, null);
         runImporter(imp);
     }
 
     @Test
-    public void testLoadMunicipios() {
+    public void testLoadMunicipios() throws ImportDataException {
         ImporterESCity imp = new ImporterESCity();
-        imp.configure(null, new DbConfig());
+        imp.configure(null, null);
+        runImporter(imp);
+    }
+
+    @Test
+    public void testLoadProvinciasINEGitHub() throws ImportDataException {
+        ImporterINEProvincia imp = new ImporterINEProvincia();
+        imp.configure(null, null);
+        runImporter(imp);
+    }
+
+    @Test
+    public void testLoadMunicipiosINEGitHub() throws ImportDataException {
+        ImporterINEMunicipios imp = new ImporterINEMunicipios();
+        imp.configure(null, null);
+        runImporter(imp);
+    }
+
+    @Test
+    public void testLoadMadrid() {
+        ImporterMadridOpenData imp = new ImporterMadridOpenData();
+        imp.configure(null, null);
         runImporter(imp);
     }
 
@@ -116,11 +125,11 @@ public class TestCountriesProvince {
             public void vrun() {
                 Province madrid = ObjectifyService.ofy().load().type(Province.class).id("28").now();
                 System.out.println("Madrid? " + madrid);
-                System.out.println("Query using value:");
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>Query using value:");
                 ObjectifyService.ofy().load().type(City.class)
                         .filter("province.code =", "28").list()
                         .forEach(p -> System.out.println(p));
-                System.out.println("Query using object:");
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>Query using object:");
                 ObjectifyService.ofy().load().type(City.class)
                         .filter("province", madrid).list()
                         .forEach(p -> System.out.println(p));

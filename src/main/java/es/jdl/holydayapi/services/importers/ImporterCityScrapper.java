@@ -33,7 +33,7 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
     private String provinceHolydayClass;
 
     @Override
-    public void configure(HttpServletRequest request, DbConfig config) {
+    public void configure(HttpServletRequest request, DbConfig config) throws ImportDataException {
         this.url  = config.getProperty("base_url", "https://calendarios.ideal.es/laboral/")
                 + request.getParameter("uriSuffix");
         this.userAgent = config.getProperty("user_agent", "Mozilla/5.0");
@@ -42,11 +42,15 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
         this.provinceHolydayClass = config.getProperty("provinceHolydayClass", "bm-calendar-state-autonomico");
         this.monthClass = config.getProperty("monthClass", "bm-calendar-month-title");
         this.city = ObjectifyService.ofy().load().type(City.class).id(request.getParameter("city")).now();
+        if (city == null)
+            throw new ImportDataException("City not found!! " + request.getParameter("city"), null);
+
     }
 
     @Override
     public List<Holyday> readAndSave() throws ImportDataException {
         List<Holyday> ret = new ArrayList<>();
+        log.info("Leyendo y procesando: " + city);
         try {
             String content = ServicesUtils.getURLContent(url);
             if (content != null) {
@@ -72,11 +76,13 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
         for (Element e: days) {
             String nombre = e.attr("title");
             String dia = e.getElementsByTag("a").text();
+            if (dia == null)
+                dia = e.text();
             Elements tagsMes = e.parent().parent().parent().getElementsByClass(this.monthClass);
             String mes = null;
             if (tagsMes.size() > 0)
                 mes = tagsMes.get(0).text();
-            if (dia != null && mes != null) {
+            if (dia != null && !"".equals(dia) && mes != null && !"".equals(mes)) {
                 Holyday h = new Holyday();
                 h.setCountry(baseDay.getCountry());
                 h.setProvince(baseDay.getProvince());
@@ -89,6 +95,8 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
                 } catch (ParseException e1) {
                     log.warning("Fecha incorrcta: " + dia + " " + mes + " " + year + ": " + e1.getMessage());
                 }
+            } else {
+                log.warning("Fecha incompleta: " + dia + " " + mes + " " + year + " " + nombre);
             }
         }
         return ret;

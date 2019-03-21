@@ -31,16 +31,17 @@ public class ImporterESProvince implements EntityImporter<Province> {
     private String provinceESurl;
 
     @Override
-    public void configure(HttpServletRequest request, DbConfig config) {
-        this.defaultCountry = ObjectifyService.ofy().load().type(Country.class).id("ES").now();
+    public void configure(HttpServletRequest request, DbConfig config) throws ImportDataException {
         provinceESurl = "http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.asmx/ConsultaProvincia";
         if (config != null) {
             provinceESurl = config.getProperty("catastro_provincia", provinceESurl);
+            // defaultCountry
         }
     }
 
     @Override
     public List<Province> readAndSave() throws ImportDataException {
+        this.defaultCountry = ObjectifyService.ofy().load().type(Country.class).id("ES").now();
         Ref<Country> esRef = Ref.create(defaultCountry);
         List<Province> ret = new ArrayList<>();
         /*

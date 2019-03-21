@@ -47,29 +47,23 @@ public class HolydayRESTService extends HttpServlet {
             query = query.filter("date >=", since).filter("date <", nextYear);
         }
         List<Holyday> ret = query.list();
-        /*
-        Key<Country> countryKey = null;
-        Key<Province> provKey = null;
-        Key<City> cityKey = null;
-        Key<Province> provCityKey = null;
-        if (country != null)
-            countryKey = Key.create(country);
-        if (province != null)
-            provKey = Key.create(province);
-        if (city != null)
-            cityKey = Key.create(city);
-        if (city != null)
-            provCityKey = Key.create(city.substring(0, 2));
-        for (Holyday h: ret) {
-            if (country != null && !h.getCountry().equivalent(countryKey))
+        for (int i = ret.size() - 1; i > 0; i--) { // preorden para no afectar a los indices al borrar
+            Holyday h = ret.get(i);
+            if (country != null && h.getCountry() != null && !h.getCountry().get().getIso().equalsIgnoreCase(country))
                 ret.remove(h);
-            else if (province != null &&
-                    (!h.getProvince().equivalent(provKey) || !h.getProvince().equivalent(provCityKey)))
-                ret.remove(h);
-            else if (city != null && !h.getCity().equivalent(cityKey))
-                ret.remove(h);
+            else if (province != null) { // x provincia
+                String hProv = h.getProvince() != null?h.getProvince().get().getCode():province;
+                // si h tiene prov tb tiene city
+                if (!province.equalsIgnoreCase(hProv))
+                    ret.remove(h);
+            } else if (city != null) {
+                String cityProv = city.substring(0, 2);
+                String hCity = h.getCity() != null?h.getCity().get().getCode():city;
+                String hProv = h.getProvince() != null?h.getProvince().get().getCode():cityProv;
+                if (!city.equalsIgnoreCase(hCity) || !cityProv.equalsIgnoreCase(hProv))
+                    ret.remove(h);
+            }
         }
-        */
         return ret;
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface EntityImporter<T> {
 
-    void configure(HttpServletRequest request, DbConfig config);
+    void configure(HttpServletRequest request, DbConfig config) throws ImportDataException;
 
     List<T> readAndSave() throws ImportDataException;
 }

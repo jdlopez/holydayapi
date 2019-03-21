@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class TestScrapping {
+public class TestScrapping extends BaseObjectyfyTest {
 
     @Test
     public void testJsoup() throws IOException {
@@ -65,30 +65,14 @@ public class TestScrapping {
         }
     }
 
-    private final LocalServiceTestHelper helper =
-            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-
     @Before
     public void setUp() throws IOException {
-        helper.setUp();
-        ObjectifyService.init(new ObjectifyFactory(
-                DatastoreOptions.newBuilder()
-                        //.setHost("localhost:8484")
-                        .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream(System.getProperty("user.home") + "/holydayapi.json")))
-                        .setProjectId("holydayapi")
-                        .build()
-                        .getService()
-        ));
-        ObjectifyService.register(City.class);
-        ObjectifyService.register(Province.class);
-        ObjectifyService.register(Country.class);
-        ObjectifyService.register(Holyday.class);
-        ObjectifyService.register(ConfigEntry.class);
+        super.setUpBase();
     }
 
     @After
     public void tearDown() {
-        helper.tearDown();
+        super.tearDownBase();
     }
 
     @Test
@@ -100,12 +84,37 @@ public class TestScrapping {
                 MockHttpServletRequest mockReq = new MockHttpServletRequest();
                 mockReq.addParam("city", "08019");
                 mockReq.addParam("uriSuffix", "catalunya/barcelona/barcelona");
-                importerCityScrapper.configure(mockReq, new DbConfig());
                 try {
+                    importerCityScrapper.configure(mockReq, new DbConfig());
                     importerCityScrapper.readAndSave().forEach(holyday -> System.out.println(holyday));
                 } catch (ImportDataException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+    }
+
+    @Test
+    public void testManyScrappers() {
+
+        ObjectifyService.run(new VoidWork() {
+            @Override
+            public void vrun() {
+                String[] suffix = {"galicia/a-coruna/a-coruna", "galicia/a-coruna/naron", "pais-vasco/bizkaia/bilbao"};
+                String[] codes  = {"15030", "15054", "48020"};
+                for (int i = 0; i < suffix.length; i++) {
+                    MockHttpServletRequest mockReq = new MockHttpServletRequest();
+                    mockReq.addParam("city", codes[i]);
+                    mockReq.addParam("uriSuffix", suffix[i]);
+                    ImporterCityScrapper importerCityScrapper = new ImporterCityScrapper();
+                    try {
+                        importerCityScrapper.configure(mockReq, new DbConfig());
+                        importerCityScrapper.readAndSave().forEach(holyday -> System.out.println(holyday));
+                    } catch (ImportDataException e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
         });
     }

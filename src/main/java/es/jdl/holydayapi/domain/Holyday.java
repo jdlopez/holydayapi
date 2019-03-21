@@ -10,7 +10,7 @@ import java.util.Date;
 @Entity
 public class Holyday {
     @Id
-    transient private Long id;// just for data storage
+    transient private Long id;// just for data storage it's date's currentTime
     @Index
     private Date date;
     private String name;
@@ -18,12 +18,13 @@ public class Holyday {
     private Ref<Province> province;
     private Ref<Country> country;
 
-    public Date getDate() {
-        return date;
-    }
-
     public void setDate(Date date) {
         this.date = date;
+        this.id = date.getTime();
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public Ref<City> getCity() {

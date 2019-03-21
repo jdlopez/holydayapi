@@ -89,7 +89,7 @@ public class ImporterESCity implements EntityImporter<City>, Serializable {
     }
 
     @Override
-    public void configure(HttpServletRequest request, DbConfig config) {
+    public void configure(HttpServletRequest request, DbConfig config) throws ImportDataException {
         String provinceCode = null;
         if (request != null)
             request.getParameter("prov");
