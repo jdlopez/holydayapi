@@ -38,7 +38,7 @@ public class ImporterINEMunicipios implements EntityImporter<City> {
         Logger log = Logger.getLogger(this.getClass().getName());
         List<City> ret = new ArrayList<>();
         try {
-            String municipios = ServicesUtils.getURLContent("https://raw.githubusercontent.com/IagoLast/pselect/master/data/municipios.json");
+            String municipios = ServicesUtils.getURLContent("https://raw.githubusercontent.com/jdlopez/holydayapi/master/data/municipios.json");
             /*
             {
             "id": "01002",
@@ -53,7 +53,7 @@ public class ImporterINEMunicipios implements EntityImporter<City> {
             if (jsonMunicipios.isJsonArray()) { // es correcto
                 JsonArray arr = jsonMunicipios.getAsJsonArray();
                 log.info("Vamos a leer " + arr.size() + " entradas...");
-                int blockSize = 100;
+                int blockSize = 150;
                 for (int i = 0; i < arr.size(); i++) {
                     JsonObject provNode = arr.get(i).getAsJsonObject();
                     String code = provNode.getAsJsonPrimitive("id").getAsString();
@@ -67,8 +67,13 @@ public class ImporterINEMunicipios implements EntityImporter<City> {
                     Ref<Province> p = null;
                     if (mapProvincias.containsKey(keyProv))
                         p = mapProvincias.get(keyProv);
-                    else // ojo, ref de null -> exception
-                        p = Ref.create(ObjectifyService.ofy().load().type(Province.class).id(keyProv).now());
+                    else { // ojo, ref de null -> exception
+                        Province prov = ObjectifyService.ofy().load().type(Province.class).id(keyProv).now();
+                        if (prov == null)
+                            throw new ImportDataException("Provincia " + keyProv + " no encontrada!", null);
+                        p = Ref.create(prov);
+                        mapProvincias.put(p.get().getCode(), p);
+                    }
                     c.setProvince(p);
                     pendientes.add(c);
                     if (pendientes.size() == blockSize) {

@@ -29,7 +29,7 @@ public class BaseObjectyfyTest {
             (new Socket(host, port)).close();
             result = true;
         } catch(IOException e) {
-            e.printStackTrace();
+            System.out.println("Puerto cerrado, conetamos con google: " + e.getMessage());
         }
 
         return result;

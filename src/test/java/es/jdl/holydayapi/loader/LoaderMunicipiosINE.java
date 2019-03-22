@@ -25,7 +25,7 @@ public class LoaderMunicipiosINE {
             Row row = sheet.getRow(rowNum);
             HashMap<String, String> muni = new HashMap<>();
             muni.put("cpro", row.getCell(1).toString());
-            muni.put("id", row.getCell(2).toString());
+            muni.put("id", row.getCell(1).toString() + row.getCell(2).toString());
             muni.put("nm", row.getCell(4).toString());
             municipios.add(muni);
         }
