@@ -1,16 +1,9 @@
 package es.jdl.holydayapi.services;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.auth.oauth2.ServiceAccountCredentials;
-import com.google.cloud.datastore.DatastoreOptions;
-import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
-import es.jdl.holydayapi.config.DbConfig;
 import es.jdl.holydayapi.domain.City;
 import es.jdl.holydayapi.domain.Country;
-import es.jdl.holydayapi.domain.Holyday;
 import es.jdl.holydayapi.domain.Province;
 import es.jdl.holydayapi.services.importers.EntityImporter;
 import es.jdl.holydayapi.services.importers.ImportDataException;
@@ -24,8 +17,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class TestCountriesProvince extends BaseObjectyfyTest {
@@ -107,6 +98,9 @@ public class TestCountriesProvince extends BaseObjectyfyTest {
     @Test
     public void testLoadMunicipiosINEGitHub() throws ImportDataException {
         ImporterINEMunicipios imp = new ImporterINEMunicipios();
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addParam("porProvincia", "true");
+        request.addParam("provincia", "48");
         imp.configure(null, null);
         runImporter(imp);
     }

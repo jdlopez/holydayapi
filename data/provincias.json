@@ -1,0 +1,257 @@
+[
+  {
+    "codCA": "16",
+    "id": "01",
+    "nm": "Álava"
+  },
+  {
+    "codCA": "08",
+    "id": "02",
+    "nm": "Albacete"
+  },
+  {
+    "codCA": "10",
+    "id": "03",
+    "nm": "Alacant/Alicante"
+  },
+  {
+    "codCA": "01",
+    "id": "04",
+    "nm": "Almería"
+  },
+  {
+    "codCA": "07",
+    "id": "05",
+    "nm": "Ávila"
+  },
+  {
+    "codCA": "11",
+    "id": "06",
+    "nm": "Badajoz"
+  },
+  {
+    "codCA": "04",
+    "id": "07",
+    "nm": "Illes Balears"
+  },
+  {
+    "codCA": "09",
+    "id": "08",
+    "nm": "Barcelona"
+  },
+  {
+    "codCA": "07",
+    "id": "09",
+    "nm": "Burgos"
+  },
+  {
+    "codCA": "11",
+    "id": "10",
+    "nm": "Cáceres"
+  },
+  {
+    "codCA": "01",
+    "id": "11",
+    "nm": "Cádiz"
+  },
+  {
+    "codCA": "10",
+    "id": "12",
+    "nm": "Castelló/Castellón"
+  },
+  {
+    "codCA": "08",
+    "id": "13",
+    "nm": "Ciudad Real"
+  },
+  {
+    "codCA": "01",
+    "id": "14",
+    "nm": "Córdoba"
+  },
+  {
+    "codCA": "12",
+    "id": "15",
+    "nm": "Coruña, A"
+  },
+  {
+    "codCA": "08",
+    "id": "16",
+    "nm": "Cuenca"
+  },
+  {
+    "codCA": "09",
+    "id": "17",
+    "nm": "Girona"
+  },
+  {
+    "codCA": "01",
+    "id": "18",
+    "nm": "Granada"
+  },
+  {
+    "codCA": "08",
+    "id": "19",
+    "nm": "Guadalajara"
+  },
+  {
+    "codCA": "16",
+    "id": "20",
+    "nm": "Guipúzcoa"
+  },
+  {
+    "codCA": "01",
+    "id": "21",
+    "nm": "Huelva"
+  },
+  {
+    "codCA": "02",
+    "id": "22",
+    "nm": "Huesca"
+  },
+  {
+    "codCA": "01",
+    "id": "23",
+    "nm": "Jaén"
+  },
+  {
+    "codCA": "07",
+    "id": "24",
+    "nm": "León"
+  },
+  {
+    "codCA": "09",
+    "id": "25",
+    "nm": "Lleida"
+  },
+  {
+    "codCA": "17",
+    "id": "26",
+    "nm": "Rioja, La"
+  },
+  {
+    "codCA": "12",
+    "id": "27",
+    "nm": "Lugo"
+  },
+  {
+    "codCA": "13",
+    "id": "28",
+    "nm": "Madrid"
+  },
+  {
+    "codCA": "01",
+    "id": "29",
+    "nm": "Málaga"
+  },
+  {
+    "codCA": "14",
+    "id": "30",
+    "nm": "Murcia"
+  },
+  {
+    "codCA": "15",
+    "id": "31",
+    "nm": "Navarra"
+  },
+  {
+    "codCA": "12",
+    "id": "32",
+    "nm": "Ourense"
+  },
+  {
+    "codCA": "03",
+    "id": "33",
+    "nm": "Asturias"
+  },
+  {
+    "codCA": "07",
+    "id": "34",
+    "nm": "Palencia"
+  },
+  {
+    "codCA": "05",
+    "id": "35",
+    "nm": "Palmas, Las"
+  },
+  {
+    "codCA": "12",
+    "id": "36",
+    "nm": "Pontevedra"
+  },
+  {
+    "codCA": "07",
+    "id": "37",
+    "nm": "Salamanca"
+  },
+  {
+    "codCA": "05",
+    "id": "38",
+    "nm": "Santa Cruz de Tenerife"
+  },
+  {
+    "codCA": "06",
+    "id": "39",
+    "nm": "Cantabria"
+  },
+  {
+    "codCA": "07",
+    "id": "40",
+    "nm": "Segovia"
+  },
+  {
+    "codCA": "01",
+    "id": "41",
+    "nm": "Sevilla"
+  },
+  {
+    "codCA": "07",
+    "id": "42",
+    "nm": "Soria"
+  },
+  {
+    "codCA": "09",
+    "id": "43",
+    "nm": "Tarragona"
+  },
+  {
+    "codCA": "02",
+    "id": "44",
+    "nm": "Teruel"
+  },
+  {
+    "codCA": "08",
+    "id": "45",
+    "nm": "Toledo"
+  },
+  {
+    "codCA": "10",
+    "id": "46",
+    "nm": "València/Valencia"
+  },
+  {
+    "codCA": "07",
+    "id": "47",
+    "nm": "Valladolid"
+  },
+  {
+    "codCA": "16",
+    "id": "48",
+    "nm": "Vizcaya"
+  },
+  {
+    "codCA": "07",
+    "id": "49",
+    "nm": "Zamora"
+  },
+  {
+    "codCA": "02",
+    "id": "50",
+    "nm": "Zaragoza"
+  },
+  {
+    "codCA": "18",
+    "id": "51",
+    "nm": "Ceuta"
+  }
+]

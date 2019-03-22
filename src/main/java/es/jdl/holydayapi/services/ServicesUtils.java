@@ -23,6 +23,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 public class ServicesUtils {
@@ -59,13 +60,18 @@ public class ServicesUtils {
     /**
      * Lee linea a linea ¿util o mejor getContent?
      * @param url
+     * @param charsetName
      * @return
      * @throws IOException
      */
-    public static String getURLContent(String url) throws IOException {
+    public static String getURLContent(String url, String charsetName) throws IOException {
         URLFetchService urlFetch = URLFetchServiceFactory.getURLFetchService();
         HTTPResponse response = urlFetch.fetch(new URL(url));
-        return new String(response.getContent());
+        return new String(response.getContent(), charsetName);
+    }
+
+    public static String getURLContent(String url) throws IOException {
+        return getURLContent(url, Charset.defaultCharset().name());
     }
 
     /**

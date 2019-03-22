@@ -84,7 +84,7 @@ public class ImporterMadridOpenData implements EntityImporter<Holyday> {
             log.info("Ref fijos: " + spainRef + " " + camRef + " " + madridRef);
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-            BufferedReader reader = new BufferedReader(new StringReader(getURLContent(urlCSV)));
+            BufferedReader reader = new BufferedReader(new StringReader(getURLContent(urlCSV, "iso-8859-1")));
             String line;
             int lineNum = 0;
             while ((line = reader.readLine()) != null) {

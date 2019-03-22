@@ -1,18 +1,8 @@
 package es.jdl.holydayapi.services;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.auth.oauth2.ServiceAccountCredentials;
-import com.google.cloud.datastore.DatastoreOptions;
-import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
-import es.jdl.holydayapi.config.ConfigEntry;
 import es.jdl.holydayapi.config.DbConfig;
-import es.jdl.holydayapi.domain.City;
-import es.jdl.holydayapi.domain.Country;
-import es.jdl.holydayapi.domain.Holyday;
-import es.jdl.holydayapi.domain.Province;
 import es.jdl.holydayapi.services.importers.ImportDataException;
 import es.jdl.holydayapi.services.importers.ImporterCityScrapper;
 import org.jsoup.Connection;
@@ -24,7 +14,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -100,8 +89,12 @@ public class TestScrapping extends BaseObjectyfyTest {
         ObjectifyService.run(new VoidWork() {
             @Override
             public void vrun() {
-                String[] suffix = {"galicia/a-coruna/a-coruna", "galicia/a-coruna/naron", "pais-vasco/bizkaia/bilbao"};
-                String[] codes  = {"15030", "15054", "48020"};
+                String[] suffix = {"galicia/a-coruna/a-coruna", "galicia/a-coruna/naron", "pais-vasco/bizkaia/bilbao",
+                "galicia/pontevedra/vigo", "asturias/asturias/oviedo", "asturias/asturias/gijon",
+                "comunidad-valenciana/valencia/valencia"};
+                String[] codes  = {"15030", "15054", "48020",
+                "36057", "33044", "33024",
+                "46250"};
                 for (int i = 0; i < suffix.length; i++) {
                     MockHttpServletRequest mockReq = new MockHttpServletRequest();
                     mockReq.addParam("city", codes[i]);

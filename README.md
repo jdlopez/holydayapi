@@ -55,7 +55,7 @@ https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyserv
 
     gcloud components install cloud-datastore-emulator
     
-    gcloud beta emulators datastore start --host-port=localhost:8484
+    gcloud beta emulators datastore start --host-port=localhost:8484 --data-dir=./target/data
     
     mvn appengine:run
     

@@ -14,22 +14,41 @@ import es.jdl.holydayapi.domain.Province;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.Socket;
 
 public class BaseObjectyfyTest {
 
     protected final LocalServiceTestHelper helper =
             new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
+    protected boolean isPortInUse(String host, int port) {
+        // Assume no connection is possible.
+        boolean result = false;
+
+        try {
+            (new Socket(host, port)).close();
+            result = true;
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     //@Before se llama en cada hijo
     protected void setUpBase() throws IOException {
         helper.setUp();
+        DatastoreOptions.Builder builder = DatastoreOptions.newBuilder();
+        if (isPortInUse("localhost", 8484)) // local develop server
+            builder = builder.setHost("http://localhost:8484");
+        else // connection with google datastore
+            builder = builder.setCredentials(ServiceAccountCredentials
+                    .fromStream(new FileInputStream(System.getProperty("user.home") +"/holydayapi.json")));
         ObjectifyService.init(new ObjectifyFactory(
-                DatastoreOptions.newBuilder()
-                        //.setHost("http://localhost:8484") remove this to use
-                        .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream(System.getProperty("user.home") +"/holydayapi.json")))
-                        .setProjectId("holydayapi")
-                        .build()
-                        .getService()
+                builder
+                .setProjectId("holydayapi")
+                .build()
+                .getService()
         ));
         ObjectifyService.register(City.class);
         ObjectifyService.register(Province.class);
