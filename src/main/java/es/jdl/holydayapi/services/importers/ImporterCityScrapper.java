@@ -44,6 +44,8 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
         this.monthClass = config.getProperty("monthClass", "bm-calendar-month-title");
         if (request.getParameter("save") != null)
             this.saveDatastore = Boolean.valueOf(request.getParameter("save"));
+        else
+            this.saveDatastore = true;
         this.city = ObjectifyService.ofy().load().type(City.class).id(request.getParameter("city")).now();
         if (city == null)
             throw new ImportDataException("City not found!! " + request.getParameter("city"), null);
@@ -93,7 +95,8 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
                 h.setName(nombre);
                 try {
                     h.setDate(df.parse(String.format("%s %s %d", dia, mes, year)));
-                    ObjectifyService.ofy().save().entity(h).now();
+                    if (this.saveDatastore)
+                        ObjectifyService.ofy().save().entity(h).now();
                     ret.add(h);
                 } catch (ParseException e1) {
                     log.warning("Fecha incorrcta: " + dia + " " + mes + " " + year + ": " + e1.getMessage());

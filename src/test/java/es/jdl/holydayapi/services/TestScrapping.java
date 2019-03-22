@@ -71,8 +71,8 @@ public class TestScrapping extends BaseObjectyfyTest {
             public void vrun() {
                 ImporterCityScrapper importerCityScrapper = new ImporterCityScrapper();
                 MockHttpServletRequest mockReq = new MockHttpServletRequest();
-                mockReq.addParam("city", "08019");
-                mockReq.addParam("uriSuffix", "catalunya/barcelona/barcelona");
+                mockReq.addParam("city", "15054"); // 08019
+                mockReq.addParam("uriSuffix", "galicia/a-coruna/naron"); // catalunya/barcelona/barcelona
                 try {
                     importerCityScrapper.configure(mockReq, new DbConfig());
                     importerCityScrapper.readAndSave().forEach(holyday -> System.out.println(holyday));
