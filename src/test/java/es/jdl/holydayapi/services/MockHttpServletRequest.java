@@ -44,7 +44,10 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public String getParameter(String name) {
-        return params.get(name)[0];
+        if (params.containsKey(name))
+            return params.get(name)[0];
+        else
+            return null;
     }
 
     @Override

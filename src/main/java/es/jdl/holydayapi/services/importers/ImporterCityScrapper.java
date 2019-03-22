@@ -31,6 +31,7 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
     private City city;
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private String provinceHolydayClass;
+    private boolean saveDatastore = true;
 
     @Override
     public void configure(HttpServletRequest request, DbConfig config) throws ImportDataException {
@@ -41,6 +42,8 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
         this.cityHolydayClass = config.getProperty("cityHolydayClass", "bm-calendar-state-local");
         this.provinceHolydayClass = config.getProperty("provinceHolydayClass", "bm-calendar-state-autonomico");
         this.monthClass = config.getProperty("monthClass", "bm-calendar-month-title");
+        if (request.getParameter("save") != null)
+            this.saveDatastore = Boolean.valueOf(request.getParameter("save"));
         this.city = ObjectifyService.ofy().load().type(City.class).id(request.getParameter("city")).now();
         if (city == null)
             throw new ImportDataException("City not found!! " + request.getParameter("city"), null);
@@ -76,7 +79,7 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
         for (Element e: days) {
             String nombre = e.attr("title");
             String dia = e.getElementsByTag("a").text();
-            if (dia == null)
+            if (dia == null || "".equals(dia))
                 dia = e.text();
             Elements tagsMes = e.parent().parent().parent().getElementsByClass(this.monthClass);
             String mes = null;

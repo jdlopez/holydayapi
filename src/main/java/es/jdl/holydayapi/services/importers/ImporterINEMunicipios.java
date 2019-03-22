@@ -78,13 +78,13 @@ public class ImporterINEMunicipios implements EntityImporter<City> {
                     pendientes.add(c);
                     if (pendientes.size() == blockSize) {
                         log.info("Guardando pendientes: " + pendientes.size());
-                        ObjectifyService.ofy().save().entities(pendientes).now();
+                        ObjectifyService.ofy().save().entities(pendientes); // no es necesario q sea sincrono (.now)
                         pendientes.clear();
                     }
                     ret.add(c);
                 } // for
                 if (!pendientes.isEmpty())
-                    ObjectifyService.ofy().save().entities(pendientes).now();
+                    ObjectifyService.ofy().save().entities(pendientes);
             }
         } catch (IOException e) {
             throw new ImportDataException(e.getMessage(), e);

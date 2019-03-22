@@ -91,14 +91,20 @@ public class TestScrapping extends BaseObjectyfyTest {
             public void vrun() {
                 String[] suffix = {"galicia/a-coruna/a-coruna", "galicia/a-coruna/naron", "pais-vasco/bizkaia/bilbao",
                 "galicia/pontevedra/vigo", "asturias/asturias/oviedo", "asturias/asturias/gijon",
-                "comunidad-valenciana/valencia/valencia"};
+                "comunidad-valenciana/valencia/valencia", "comunidad-valenciana/alicante/alicante-alacant", "andalucia/almeria/almeria",
+                "andalucia/malaga/malaga", "region-de-murcia/murcia/murcia", "aragon/zaragoza/zaragoza",
+                "castilla-y-leon/valladolid/valladolid", "catalunya/barcelona/sabadell", "castilla-y-leon/avila/avila"};
                 String[] codes  = {"15030", "15054", "48020",
-                "36057", "33044", "33024",
-                "46250"};
+                        "36057", "33044", "33024",
+                        "46250", "03014", "04013",
+                        "29067", "30030", "50297",
+                        "47186", "08187", "05019"
+                };
                 for (int i = 0; i < suffix.length; i++) {
                     MockHttpServletRequest mockReq = new MockHttpServletRequest();
                     mockReq.addParam("city", codes[i]);
                     mockReq.addParam("uriSuffix", suffix[i]);
+                    //mockReq.addParam("save", "false");
                     ImporterCityScrapper importerCityScrapper = new ImporterCityScrapper();
                     try {
                         importerCityScrapper.configure(mockReq, new DbConfig());
