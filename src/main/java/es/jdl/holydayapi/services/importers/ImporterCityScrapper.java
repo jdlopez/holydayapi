@@ -32,6 +32,7 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private String provinceHolydayClass;
     private boolean saveDatastore = true;
+    private Integer predefinedYear;
 
     @Override
     public void configure(HttpServletRequest request, DbConfig config) throws ImportDataException {
@@ -49,6 +50,10 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
         this.city = ObjectifyService.ofy().load().type(City.class).id(request.getParameter("city")).now();
         if (city == null)
             throw new ImportDataException("City not found!! " + request.getParameter("city"), null);
+        if (request.getParameter("year") != null)
+            this.predefinedYear = Integer.parseInt(request.getParameter("year"));
+        else
+            this.predefinedYear = null;
 
     }
 
@@ -77,7 +82,8 @@ public class ImporterCityScrapper implements EntityImporter<Holyday> {
     private List<Holyday> parseHtml(Holyday baseDay, Elements days) {
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy", new Locale("ES"));
         List<Holyday> ret = new ArrayList<>();
-        int year = Calendar.getInstance().get(Calendar.YEAR);
+
+        int year = this.predefinedYear == null?Calendar.getInstance().get(Calendar.YEAR):this.predefinedYear;
         for (Element e: days) {
             String nombre = e.attr("title");
             String dia = e.getElementsByTag("a").text();
