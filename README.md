@@ -13,7 +13,7 @@ Actual focus: Spanish holydays
 API para la consulta de calendarios laborales desplegado en un entorno abierto y gratuito.
 
 > Si se abusa del uso tendré que limitarlo, por favor úsalo como fuente para tu propio almacenamiento.
-No para 
+No para llamadas directas.
 
 _Prefijo para todas las llamadas:_
  
@@ -64,9 +64,17 @@ https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyserv
     
 ## Data sources
 
-* Ayuntamiento de madrid:
+* Calendarios CCAA (en PDF):
+
+    https://administracion.gob.es/pag_Home/atencionCiudadana/calendarios/laboral.html
+
+* Ayuntamiento de madrid (CSV):
 
     https://datos.madrid.es/egob/catalogo/title/Calendario%20laboral.json
+
+* Ayuntamiento de Barcelona (ICS):
+
+    https://ajuntament.barcelona.cat/calendarifestius/es/index.html
 
 * Gobierno de aragon:
 
@@ -87,4 +95,9 @@ http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.as
 * Municipios (Catastro)
 
     http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.asmx?op=ConsultaMunicipioCodigos
+
+> Sustituido por versiones locales:
+>
+> * [provincias](data/provincias.json)
+> * [municipios](data/municipios.json)
     
