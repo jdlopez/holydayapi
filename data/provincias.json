@@ -2,256 +2,313 @@
   {
     "codCA": "16",
     "id": "01",
-    "nm": "Álava"
+    "nm": "Álava",
+    "iso": "ES-VI"
   },
   {
     "codCA": "08",
     "id": "02",
-    "nm": "Albacete"
+    "nm": "Albacete",
+    "iso": "ES-AB"
   },
   {
     "codCA": "10",
     "id": "03",
-    "nm": "Alacant/Alicante"
+    "nm": "Alacant/Alicante",
+    "iso": "ES-A"
   },
   {
     "codCA": "01",
     "id": "04",
-    "nm": "Almería"
+    "nm": "Almería",
+    "iso": "ES-AL"
   },
   {
     "codCA": "07",
     "id": "05",
-    "nm": "Ávila"
+    "nm": "Ávila",
+    "iso": "ES-AV"
   },
   {
     "codCA": "11",
     "id": "06",
-    "nm": "Badajoz"
+    "nm": "Badajoz",
+    "iso": "ES-BA"
   },
   {
     "codCA": "04",
     "id": "07",
-    "nm": "Illes Balears"
+    "nm": "Illes Balears",
+    "iso": "ES-PM"
   },
   {
     "codCA": "09",
     "id": "08",
-    "nm": "Barcelona"
+    "nm": "Barcelona",
+    "iso": "ES-B"
   },
   {
     "codCA": "07",
     "id": "09",
-    "nm": "Burgos"
+    "nm": "Burgos",
+    "iso": "ES-BU"
   },
   {
     "codCA": "11",
     "id": "10",
-    "nm": "Cáceres"
+    "nm": "Cáceres",
+    "iso": "ES-CC"
   },
   {
     "codCA": "01",
     "id": "11",
-    "nm": "Cádiz"
+    "nm": "Cádiz",
+    "iso": "ES-CA"
   },
   {
     "codCA": "10",
     "id": "12",
-    "nm": "Castelló/Castellón"
+    "nm": "Castelló/Castellón",
+    "iso": "ES-CS"
   },
   {
     "codCA": "08",
     "id": "13",
-    "nm": "Ciudad Real"
+    "nm": "Ciudad Real",
+    "iso": "ES-CR"
   },
   {
     "codCA": "01",
     "id": "14",
-    "nm": "Córdoba"
+    "nm": "Córdoba",
+    "iso": "ES-CO"
   },
   {
     "codCA": "12",
     "id": "15",
-    "nm": "Coruña, A"
+    "nm": "Coruña, A",
+    "iso": "ES-C"
   },
   {
     "codCA": "08",
     "id": "16",
-    "nm": "Cuenca"
+    "nm": "Cuenca",
+    "iso": "ES-CU"
   },
   {
     "codCA": "09",
     "id": "17",
-    "nm": "Girona"
+    "nm": "Girona",
+    "iso": "ES-GE"
   },
   {
     "codCA": "01",
     "id": "18",
-    "nm": "Granada"
+    "nm": "Granada",
+    "iso": "ES-GR"
   },
   {
     "codCA": "08",
     "id": "19",
-    "nm": "Guadalajara"
+    "nm": "Guadalajara",
+    "iso": "ES-GU"
   },
   {
     "codCA": "16",
     "id": "20",
-    "nm": "Guipúzcoa"
+    "nm": "Guipúzcoa",
+    "iso": "ES-SS"
   },
   {
     "codCA": "01",
     "id": "21",
-    "nm": "Huelva"
+    "nm": "Huelva",
+    "iso": "ES-H"
   },
   {
     "codCA": "02",
     "id": "22",
-    "nm": "Huesca"
+    "nm": "Huesca",
+    "iso": "ES-HU"
   },
   {
     "codCA": "01",
     "id": "23",
-    "nm": "Jaén"
+    "nm": "Jaén",
+    "iso": "ES-J"
   },
   {
     "codCA": "07",
     "id": "24",
-    "nm": "León"
+    "nm": "León",
+    "iso": "ES-LE"
   },
   {
     "codCA": "09",
     "id": "25",
-    "nm": "Lleida"
+    "nm": "Lleida",
+    "iso": "ES-L"
   },
   {
     "codCA": "17",
     "id": "26",
-    "nm": "Rioja, La"
+    "nm": "Rioja, La",
+    "iso": "ES-LO"
   },
   {
     "codCA": "12",
     "id": "27",
-    "nm": "Lugo"
+    "nm": "Lugo",
+    "iso": "ES-LU"
   },
   {
     "codCA": "13",
     "id": "28",
-    "nm": "Madrid"
+    "nm": "Madrid",
+    "iso": "ES-M"
   },
   {
     "codCA": "01",
     "id": "29",
-    "nm": "Málaga"
+    "nm": "Málaga",
+    "iso": "ES-MA"
   },
   {
     "codCA": "14",
     "id": "30",
-    "nm": "Murcia"
+    "nm": "Murcia",
+    "iso": "ES-MU"
   },
   {
     "codCA": "15",
     "id": "31",
-    "nm": "Navarra"
+    "nm": "Navarra",
+    "iso": "ES-NA"
   },
   {
     "codCA": "12",
     "id": "32",
-    "nm": "Ourense"
+    "nm": "Ourense",
+    "iso": "ES-OR"
   },
   {
     "codCA": "03",
     "id": "33",
-    "nm": "Asturias"
+    "nm": "Asturias",
+    "iso": "ES-O"
   },
   {
     "codCA": "07",
     "id": "34",
-    "nm": "Palencia"
+    "nm": "Palencia",
+    "iso": "ES-P"
   },
   {
     "codCA": "05",
     "id": "35",
-    "nm": "Palmas, Las"
+    "nm": "Palmas, Las",
+    "iso": "ES-GC"
   },
   {
     "codCA": "12",
     "id": "36",
-    "nm": "Pontevedra"
+    "nm": "Pontevedra",
+    "iso": "ES-PO"
   },
   {
     "codCA": "07",
     "id": "37",
-    "nm": "Salamanca"
+    "nm": "Salamanca",
+    "iso": "ES-SA"
   },
   {
     "codCA": "05",
     "id": "38",
-    "nm": "Santa Cruz de Tenerife"
+    "nm": "Santa Cruz de Tenerife",
+    "iso": "ES-TF"
   },
   {
     "codCA": "06",
     "id": "39",
-    "nm": "Cantabria"
+    "nm": "Cantabria",
+    "iso": "ES-S"
   },
   {
     "codCA": "07",
     "id": "40",
-    "nm": "Segovia"
+    "nm": "Segovia",
+    "iso": "ES-SG"
   },
   {
     "codCA": "01",
     "id": "41",
-    "nm": "Sevilla"
+    "nm": "Sevilla",
+    "iso": "ES-SE"
   },
   {
     "codCA": "07",
     "id": "42",
-    "nm": "Soria"
+    "nm": "Soria",
+    "iso": "ES-SO"
   },
   {
     "codCA": "09",
     "id": "43",
-    "nm": "Tarragona"
+    "nm": "Tarragona",
+    "iso": "ES-T"
   },
   {
     "codCA": "02",
     "id": "44",
-    "nm": "Teruel"
+    "nm": "Teruel",
+    "iso": "ES-TE"
   },
   {
     "codCA": "08",
     "id": "45",
-    "nm": "Toledo"
+    "nm": "Toledo",
+    "iso": "ES-TO"
   },
   {
     "codCA": "10",
     "id": "46",
-    "nm": "València/Valencia"
+    "nm": "València/Valencia",
+    "iso": "ES-V"
   },
   {
     "codCA": "07",
     "id": "47",
-    "nm": "Valladolid"
+    "nm": "Valladolid",
+    "iso": "ES-VA"
   },
   {
     "codCA": "16",
     "id": "48",
-    "nm": "Vizcaya"
+    "nm": "Vizcaya",
+    "iso": "ES-BI"
   },
   {
     "codCA": "07",
     "id": "49",
-    "nm": "Zamora"
+    "nm": "Zamora",
+    "iso": "ES-ZA"
   },
   {
     "codCA": "02",
     "id": "50",
-    "nm": "Zaragoza"
+    "nm": "Zaragoza",
+    "iso": "ES-Z"
   },
   {
     "codCA": "18",
     "id": "51",
-    "nm": "Ceuta"
+    "nm": "Ceuta",
+    "iso": "ES-CE"
+  },
+  {
+    "codCA": "19",
+    "id": "52",
+    "nm": "Melilla",
+    "iso": "ES-ML"
   }
 ]
