@@ -1,61 +1,49 @@
 package es.jdl.holydayapi.domain;
 
-import com.googlecode.objectify.Ref;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import es.jdl.holydayapi.services.importers.HolydayType;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 public class Holyday {
+
+    @JsonIgnore
     @Id
-    transient private Long id;// just for data storage it's date's currentTime
-    @Index
-    private Date date;
+    @GeneratedValue
+    private Integer id;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date day;
     private String name;
-    private Ref<City> city;
-    private Ref<Province> province;
-    private Ref<Country> country;
+    private String city;
+    private String region;
+    private String country;
+    private HolydayType type;
 
-    public void setDate(Date date) {
-        this.date = date;
-        this.id = date.getTime();
+    public void setDay(Date day) {
+        this.day = day;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDay() {
+        return day;
     }
 
-    public Ref<City> getCity() {
-        return city;
-    }
-
-    public void setCity(Ref<City> city) {
-        this.city = city;
-    }
-
-    public Ref<Province> getProvince() {
-        return province;
-    }
-
-    public void setProvince(Ref<Province> province) {
-        this.province = province;
-    }
-
-    public Ref<Country> getCountry() {
-        return country;
-    }
-
-    public void setCountry(Ref<Country> country) {
-        this.country = country;
-    }
-
-    public Long getId() {
+    @Id
+    @GeneratedValue
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Id
+    @GeneratedValue
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -67,14 +55,59 @@ public class Holyday {
         this.name = name;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Holyday{");
-        sb.append("date=").append(date);
-        sb.append(", city=").append(city);
-        sb.append(", province=").append(province);
-        sb.append(", country=").append(country);
-        sb.append('}');
-        return sb.toString();
+        return "Holyday{" +
+                "id=" + id +
+                ", day=" + day +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                ", region='" + region + '\'' +
+                ", country='" + country + '\'' +
+                ", type=" + type +
+                '}';
+    }
+
+    @Transient
+    public void setType(HolydayType type) {
+        this.type = type;
+    }
+
+    @Transient
+    public HolydayType getType() {
+        if (type == null) {
+            if (city != null)
+                type = HolydayType.LOCAL;
+            if (city == null && region != null)
+                type = HolydayType.REGION;
+            else if (city == null && region == null && country != null)
+                type = HolydayType.COUNTRY;
+            // else ERROR!!
+        }
+        return type;
     }
 }

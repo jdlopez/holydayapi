@@ -1,7 +1,5 @@
 package es.jdl.holydayapi.services.importers;
 
-import es.jdl.holydayapi.config.DbConfig;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -11,7 +9,4 @@ import java.util.List;
  */
 public interface EntityImporter<T> {
 
-    void configure(HttpServletRequest request, DbConfig config) throws ImportDataException;
-
-    List<T> readAndSave() throws ImportDataException;
 }

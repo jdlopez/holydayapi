@@ -1,21 +1,14 @@
 package es.jdl.holydayapi.domain;
 
-import com.googlecode.objectify.Ref;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-
-import java.io.Serializable;
-
-@Entity
-public class Province implements Serializable {
+public class Province {
 
     // codigo del INE
-    @Id
     private String code;
     private String name;
     // ISO 3166-2:ES
     private String iso;
-    private Ref<Country> country;
+    private String countryCode;
+    private String regionCode;
 
     public String getCode() {
         return code;
@@ -41,12 +34,20 @@ public class Province implements Serializable {
         this.iso = iso;
     }
 
-    public Ref<Country> getCountry() {
-        return country;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setCountry(Ref<Country> country) {
-        this.country = country;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getRegionCode() {
+        return regionCode;
+    }
+
+    public void setRegionCode(String regionCode) {
+        this.regionCode = regionCode;
     }
 
     @Override
@@ -55,7 +56,8 @@ public class Province implements Serializable {
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", iso='" + iso + '\'' +
-                ", country=" + country +
+                ", countryCode='" + countryCode + '\'' +
+                ", regionCode='" + regionCode + '\'' +
                 '}';
     }
 }

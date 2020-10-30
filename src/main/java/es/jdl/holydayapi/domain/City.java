@@ -1,9 +1,7 @@
 package es.jdl.holydayapi.domain;
 
-import com.googlecode.objectify.Ref;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class City {
@@ -11,8 +9,7 @@ public class City {
     @Id
     private String code;
     private String name;
-    @Index
-    private Ref<Province> province;
+    private String provinceCode;
 
     public String getCode() {
         return code;
@@ -30,12 +27,12 @@ public class City {
         this.name = name;
     }
 
-    public Ref<Province> getProvince() {
-        return province;
+    public String getProvinceCode() {
+        return provinceCode;
     }
 
-    public void setProvince(Ref<Province> province) {
-        this.province = province;
+    public void setProvinceCode(String provinceCode) {
+        this.provinceCode = provinceCode;
     }
 
     @Override
@@ -43,7 +40,7 @@ public class City {
         return "City{" +
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
-                ", province=" + province +
+                ", province=" + provinceCode +
                 '}';
     }
 }

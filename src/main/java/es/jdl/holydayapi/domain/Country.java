@@ -1,26 +1,27 @@
 package es.jdl.holydayapi.domain;
 
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Ignore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Locale;
 
 @Entity
 public class Country {
 
     @Id
-    private String iso;
+    private String code;
     private String name;
-    @Ignore
+    @JsonIgnore
     private Locale locale;
 
-    public String getIso() {
-        return iso;
+    public String getCode() {
+        return code;
     }
 
-    public void setIso(String iso) {
-        this.iso = iso;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -31,10 +32,12 @@ public class Country {
         this.name = name;
     }
 
+    @Transient
     public Locale getLocale() {
         return locale;
     }
 
+    @Transient
     public void setLocale(Locale locale) {
         this.locale = locale;
     }
@@ -42,7 +45,7 @@ public class Country {
     @Override
     public String toString() {
         return "Country{" +
-                "iso='" + iso + '\'' +
+                "code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", locale=" + locale +
                 '}';

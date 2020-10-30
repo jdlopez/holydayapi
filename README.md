@@ -75,6 +75,14 @@ https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyserv
 * Ayuntamiento de Barcelona (ICS):
 
     https://ajuntament.barcelona.cat/calendarifestius/es/index.html
+    
+* Junta de Castilla y León
+
+    https://datosabiertos.jcyl.es/web/jcyl/risp/es/empleo/laboral-cyl/1284165791785.csv
+    
+* Galicia
+
+    https://abertos.xunta.gal/catalogo/economia-empresa-emprego/-/dataset/0403/calendario-laboral-2020/002/descarga-directa-ficheiro.csv
 
 * Gobierno de aragon:
 
@@ -83,6 +91,10 @@ https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyserv
 * Ciudad de Santander
 
     http://datos.santander.es/dataset/?id=calendario-laboral
+    
+* Euskadi
+
+    https://opendata.euskadi.eus/contenidos/ds_eventos/calendario_laboral_2020/opendata/calendario_laboral_2020.csv
     
 ### Servicios del catastro
 
