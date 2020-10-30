@@ -1,0 +1,5 @@
+{
+  "name": "Holyday API",
+  "description": "Holyday REST API. You can obtain a list of days excluded from work-calendar.",
+  "addons": [ "heroku-postgresql" ]
+}

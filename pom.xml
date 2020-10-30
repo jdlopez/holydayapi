@@ -39,10 +39,15 @@
             <artifactId>norm</artifactId>
             <version>0.8.5</version>
         </dependency>
-        <!-- jdbc driver -->
+        <!-- jdbc driver
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
 
         <dependency>
