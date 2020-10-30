@@ -1,3 +1,5 @@
+/* tranformado en postgresql */
+
 create table country (
 code varchar(2) not null primary key, -- iso
 name varchar(100) not null
@@ -25,10 +27,16 @@ create table city (
 );
 
 create table holyday (
-    id integer not null primary key AUTO_INCREMENT,
+    id SERIAL primary key,
     day date not null,
     name varchar(100) not null,
     city varchar(5) null references city(code),
     region varchar(2) null references region(code),
     country varchar(2) not null references country(code)
 );
+
+create table configuration (
+    entryKey varchar(100) not null primary key,
+    entryValue varchar(255) null,
+    comment varchar(250) null
+)

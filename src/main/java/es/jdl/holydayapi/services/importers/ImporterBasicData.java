@@ -1,4 +1,4 @@
-package es.jdl.holydayapi;
+package es.jdl.holydayapi.services.importers;
 
 import com.dieselpoint.norm.Database;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -7,47 +7,37 @@ import es.jdl.holydayapi.domain.City;
 import es.jdl.holydayapi.domain.Country;
 import es.jdl.holydayapi.domain.Province;
 import es.jdl.holydayapi.domain.Region;
-import es.jdl.holydayapi.services.importers.ImporterUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
-public class LoadLocaleCountries {
+@Component
+public class ImporterBasicData {
 
-    private Database db = new Database();
+    private Database db;
 
-    @Before
-    public void init() {
-        db.setJdbcUrl(System.getenv("JAWSDB_URL"));
-    }
-
-    @Test
-    public void insertBasicData() throws IOException {
-        insertAllCountries();
-        insertESRegions();
-        insertESprovince();
-        insertESCities();
-    }
-
-
-    @Test
-    public void insertAllCountries() {
+    public List<Country> insertAllCountries() {
+        ArrayList<Country> ret = new ArrayList<>();
         for (String countryStr: Locale.getISOCountries()) {
             Country c = new Country();
             c.setCode(countryStr);
             Locale l = new Locale("", countryStr);
             c.setName(l.getDisplayName());
             c.setLocale(l);
-            System.out.println(c);
             db.insert(c);
+            ret.add(c);
         }
+        return ret;
+
     }
 
-    @Test
-    public void insertESRegions() throws IOException {
+    public List<Region> insertESRegions() throws IOException {
+        ArrayList<Region> ret = new ArrayList<>();
         ObjectMapper om = new ObjectMapper();
         URL url = new URL("https://raw.githubusercontent.com/jdlopez/holydayapi/master/data/comunidades_autonomas.json");
         JsonNode tree = om.readTree(url.openStream());
@@ -58,16 +48,16 @@ public class LoadLocaleCountries {
                     r.setCode(ccaa.get("id").asText());
                     r.setName(ccaa.get("nm").asText());
                     r.setCountryCode("ES");
-                    System.out.println(r);
                     db.insert(r);
+                    ret.add(r);
                 }
             }
         }
-
+        return ret;
     }
 
-    @Test
-    public void insertESprovince() throws IOException {
+    public List<Province> insertESprovince() throws IOException {
+        ArrayList<Province> ret = new ArrayList<>();
         // fuentes:
         // https://www.ine.es/daco/daco42/codmun/cod_provincia_estandar.htm
         // https://www.ine.es/daco/daco42/codmun/cod_ccaa.htm
@@ -91,15 +81,16 @@ public class LoadLocaleCountries {
                     p.setIso(prov.get("iso").asText());
                     p.setCountryCode("ES");
                     p.setRegionCode(prov.get("codCA").asText());
-                    System.out.println(p);
-                    db.insert(p);
+                   db.insert(p);
+                   ret.add(p);
                 }
             }
         }
+        return ret;
     }
 
-    @Test
-    public void insertESCities() throws IOException {
+    public List<City> insertESCities() throws IOException {
+        ArrayList<City> ret = new ArrayList<>();
         ObjectMapper om = new ObjectMapper();
         // fuente: https://www.ine.es/daco/daco42/codmun/codmun20/20codmun.xlsx
         /* json array con estos datos:
@@ -116,11 +107,16 @@ public class LoadLocaleCountries {
                     c.setCode(city.get("id").asText());
                     c.setName(city.get("nm").asText());
                     c.setProvinceCode(city.get("cpro").asText());
-                    System.out.println(c);
                     db.insert(c);
+                    ret.add(c);
                 }
             }
         }
+        return ret;
+    }
 
+    @Autowired
+    public void setDb(Database db) {
+        this.db = db;
     }
 }

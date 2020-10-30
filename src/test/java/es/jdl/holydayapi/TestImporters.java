@@ -8,6 +8,7 @@ import es.jdl.holydayapi.domain.Region;
 import es.jdl.holydayapi.services.importers.ConfImport;
 import es.jdl.holydayapi.services.importers.HolydayType;
 import es.jdl.holydayapi.services.importers.ImporterUtils;
+import es.jdl.holydayapi.services.persistence.HolydayDao;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,10 +31,12 @@ public class TestImporters {
     private static final String EUSKADI_REGION = "16";
 
     private Database db = new Database();
+    private HolydayDao dao = new HolydayDao();
 
     @Before
     public void init() {
         db.setJdbcUrl(System.getenv("JAWSDB_URL"));
+        dao.setDatabase(db);
     }
 
     @Test
@@ -116,7 +119,7 @@ Data;Descrici�n;�mbito;id_municipio;concello
             if (h.getType().equals(HolydayType.LOCAL) || h.getType().equals(HolydayType.REGION)) {
                 h.setRegion(GALICIA_REGION);
             }
-            insertHoyday(h);
+            dao.insertHoyday(h);
         }
     }
 
@@ -152,24 +155,8 @@ Data;Descrici�n;�mbito;id_municipio;concello
                 h.setRegion(MADRID_REGION);
             }
             System.out.println(h);
-            insertHoyday(h);
+            dao.insertHoyday(h);
         }
-    }
-
-    private void insertHoyday(Holyday h) {
-        Holyday exists = null;
-        if (h.getCity() != null) {
-            exists = db.table("Holyday").where("day = ? and city = ?", h.getDay(), h.getCity()).first(Holyday.class);
-        } else if (h.getRegion() != null) {
-            exists = db.table("Holyday").where("day = ? and region = ? and city is null", h.getDay(), h.getRegion()).first(Holyday.class);
-        } else if (h.getCountry() != null)
-            exists = db.table("Holyday").where("day = ? and country = ? and region is null and city is null",
-                    h.getDay(), h.getCountry()).first(Holyday.class);
-        if (exists != null) {
-            System.out.println("** ya insertado " + h);
-            return;
-        } else
-            db.insert(h);
     }
 
     private void importMadrid() throws IOException {

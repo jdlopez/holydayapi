@@ -15,6 +15,10 @@ public class HolydayDao {
     @Autowired
     private Database database;
 
+    public void setDatabase(Database database) {
+        this.database = database;
+    }
+
     public List<Holyday> selectHolydayByCity(City city, Date from, Date to, String regionCode, String countryCode) {
         Query q = database.table("Holyday")
                 .where("day >=? and day <=? and " +
@@ -53,5 +57,21 @@ public class HolydayDao {
     public Region selectRegionByProvinceCode(String provinceCode) {
         return database.sql("select distinct r.* from region r join province p on r.code = p.regionCode where p.code = ?",
                 provinceCode).first(Region.class);
+    }
+
+    public void insertHoyday(Holyday h) {
+        Holyday exists = null;
+        if (h.getCity() != null) {
+            exists = database.table("Holyday").where("day = ? and city = ?", h.getDay(), h.getCity()).first(Holyday.class);
+        } else if (h.getRegion() != null) {
+            exists = database.table("Holyday").where("day = ? and region = ? and city is null", h.getDay(), h.getRegion()).first(Holyday.class);
+        } else if (h.getCountry() != null)
+            exists = database.table("Holyday").where("day = ? and country = ? and region is null and city is null",
+                    h.getDay(), h.getCountry()).first(Holyday.class);
+        if (exists != null) {
+            System.out.println("** ya insertado " + h);
+            return;
+        } else
+            database.insert(h);
     }
 }

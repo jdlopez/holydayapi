@@ -3,6 +3,7 @@ package es.jdl.holydayapi.services.importers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.jdl.holydayapi.domain.Holyday;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class ImporterUtils {
 
     private ObjectMapper om = new ObjectMapper();
