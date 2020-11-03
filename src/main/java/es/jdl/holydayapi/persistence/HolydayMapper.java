@@ -62,6 +62,9 @@ public interface HolydayMapper {
             "group by country, c.name order by country")
     List<CodeCount> selectCountHolydaysCountry(int year);
 
+    @Select("select * from city where code = #{cityCode}")
+    City selectCityByCode(String cityCode);
+
     public class CodeCount {
         public String code;
         public String name;

@@ -16,21 +16,35 @@ import java.util.Calendar;
 import java.util.List;
 
 @RestController
-@RequestMapping("/holyday")
+@RequestMapping("/holydays")
 public class HolydayRESTService {
 
     @Autowired
     private HolydayMapper dao;
 
     @GetMapping (path = {
-            "/city/name/{cityName}",
-            "/year/{year}/city/name/{cityName}",
+            "/city/{cityName}",
+            "/city/{cityName}/year/{year}",
     })
     public List<Holyday> findByCity(@NotNull @PathVariable String cityName, @PathVariable(required = false) Integer year) {
         City city = dao.selectCityByLowerName(cityName.toLowerCase());
         if (city == null)
             throw new RuntimeException(cityName + " not found");
-        //String country = holydayDao.selectCountryCodeByProvinceCode(city.getProvinceCode());
+        return findHolydays(city, year);
+    }
+
+    @GetMapping (path = {
+            "/city_code/{cityCode}",
+            "/city_code/{cityCode}/year/{year}",
+    })
+    public List<Holyday> findByCityCode(@NotNull @PathVariable String cityCode, @PathVariable(required = false) Integer year) {
+        City city = dao.selectCityByCode(cityCode);
+        if (city == null)
+            throw new RuntimeException(cityCode + " not found");
+        return findHolydays(city, year);
+    }
+
+    protected List<Holyday> findHolydays(City city, Integer year) {
         Region region = dao.selectRegionByProvinceCode(city.getProvinceCode());
         if (region == null)
             throw new RuntimeException(city.getProvinceCode() + " not found");
