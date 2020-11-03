@@ -3,7 +3,7 @@ package es.jdl.holydayapi.services.importers;
 /**
  * Importer configuration
  */
-public class ConfImport {
+public class ConfigCSV {
 
     private String dateFormat = "dd/MM/yyyy";
     private String charSet = "iso-8859-1";

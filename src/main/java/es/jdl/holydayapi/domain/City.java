@@ -1,12 +1,7 @@
 package es.jdl.holydayapi.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
 public class City {
 
-    @Id
     private String code;
     private String name;
     private String provinceCode;

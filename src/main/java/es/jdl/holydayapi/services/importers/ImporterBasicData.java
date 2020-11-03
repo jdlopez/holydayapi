@@ -1,12 +1,12 @@
 package es.jdl.holydayapi.services.importers;
 
-import com.dieselpoint.norm.Database;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.jdl.holydayapi.domain.City;
 import es.jdl.holydayapi.domain.Country;
 import es.jdl.holydayapi.domain.Province;
 import es.jdl.holydayapi.domain.Region;
+import es.jdl.holydayapi.persistence.BasicDataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +17,11 @@ import java.util.List;
 import java.util.Locale;
 
 @Component
+// TODO: chage this for java-migration? in flyway
 public class ImporterBasicData {
 
-    private Database db;
+    @Autowired
+    private BasicDataMapper dataMapper;
 
     public List<Country> insertAllCountries() {
         ArrayList<Country> ret = new ArrayList<>();
@@ -29,7 +31,7 @@ public class ImporterBasicData {
             Locale l = new Locale("", countryStr);
             c.setName(l.getDisplayName());
             c.setLocale(l);
-            db.insert(c);
+            dataMapper.insertCountry(c);
             ret.add(c);
         }
         return ret;
@@ -48,7 +50,7 @@ public class ImporterBasicData {
                     r.setCode(ccaa.get("id").asText());
                     r.setName(ccaa.get("nm").asText());
                     r.setCountryCode("ES");
-                    db.insert(r);
+                    dataMapper.insertRegion(r);
                     ret.add(r);
                 }
             }
@@ -81,7 +83,7 @@ public class ImporterBasicData {
                     p.setIso(prov.get("iso").asText());
                     p.setCountryCode("ES");
                     p.setRegionCode(prov.get("codCA").asText());
-                   db.insert(p);
+                    dataMapper.insertProvince(p);
                    ret.add(p);
                 }
             }
@@ -107,7 +109,7 @@ public class ImporterBasicData {
                     c.setCode(city.get("id").asText());
                     c.setName(city.get("nm").asText());
                     c.setProvinceCode(city.get("cpro").asText());
-                    db.insert(c);
+                    dataMapper.insertCity(c);
                     ret.add(c);
                 }
             }
@@ -115,8 +117,4 @@ public class ImporterBasicData {
         return ret;
     }
 
-    @Autowired
-    public void setDb(Database db) {
-        this.db = db;
-    }
 }

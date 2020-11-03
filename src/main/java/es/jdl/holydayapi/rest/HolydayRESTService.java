@@ -1,9 +1,9 @@
-package es.jdl.holydayapi.services.rest;
+package es.jdl.holydayapi.rest;
 
 import es.jdl.holydayapi.domain.City;
 import es.jdl.holydayapi.domain.Holyday;
 import es.jdl.holydayapi.domain.Region;
-import es.jdl.holydayapi.services.persistence.HolydayDao;
+import es.jdl.holydayapi.persistence.HolydayMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,35 +11,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/holyday")
+@RequestMapping("/holyday")
 public class HolydayRESTService {
+
     @Autowired
-    private HolydayDao holydayDao;
+    private HolydayMapper dao;
 
     @GetMapping (path = {
             "/city/name/{cityName}",
             "/year/{year}/city/name/{cityName}",
     })
     public List<Holyday> findByCity(@NotNull @PathVariable String cityName, @PathVariable(required = false) Integer year) {
-        City city = holydayDao.selectCityByName(cityName);
+        City city = dao.selectCityByLowerName(cityName.toLowerCase());
         if (city == null)
             throw new RuntimeException(cityName + " not found");
         //String country = holydayDao.selectCountryCodeByProvinceCode(city.getProvinceCode());
-        Region region = holydayDao.selectRegionByProvinceCode(city.getProvinceCode());
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        if (year != null) {
-            cal.set(Calendar.YEAR, year);
+        Region region = dao.selectRegionByProvinceCode(city.getProvinceCode());
+        if (region == null)
+            throw new RuntimeException(city.getProvinceCode() + " not found");
+
+        if (year == null) {
+            Calendar cal = Calendar.getInstance();
+            year = cal.get(Calendar.YEAR);
         }
-        Date fromDate = cal.getTime();
-        cal.set(Calendar.DAY_OF_MONTH, 31);
-        cal.set(Calendar.MONTH, Calendar.DECEMBER);
-        return holydayDao.selectHolydayByCity(city, fromDate, cal.getTime(), region.getCode(), region.getCountryCode());
+
+        return dao.selectHolydayByCityAndDate(city, LocalDate.of(year,1, 1),
+                LocalDate.of(year,12, 31), region.getCode(), region.getCountryCode());
     }
 }

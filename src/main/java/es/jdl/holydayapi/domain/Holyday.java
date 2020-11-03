@@ -5,44 +5,33 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import es.jdl.holydayapi.services.importers.HolydayType;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-import java.util.Date;
+import java.time.LocalDate;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Entity
 public class Holyday {
 
     @JsonIgnore
-    @Id
-    @GeneratedValue
     private Integer id;
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date day;
+    private LocalDate day;
     private String name;
     private String city;
     private String region;
     private String country;
     private HolydayType type;
 
-    public void setDay(Date day) {
+    public void setDay(LocalDate day) {
         this.day = day;
     }
 
-    public Date getDay() {
+    public LocalDate getDay() {
         return day;
     }
 
-    @Id
-    @GeneratedValue
     public Integer getId() {
         return id;
     }
 
-    @Id
-    @GeneratedValue
     public void setId(Integer id) {
         this.id = id;
     }
@@ -92,12 +81,10 @@ public class Holyday {
                 '}';
     }
 
-    @Transient
     public void setType(HolydayType type) {
         this.type = type;
     }
 
-    @Transient
     public HolydayType getType() {
         if (type == null) {
             if (city != null)

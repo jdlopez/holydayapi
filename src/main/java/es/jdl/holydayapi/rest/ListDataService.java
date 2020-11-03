@@ -1,9 +1,9 @@
-package es.jdl.holydayapi.services.rest;
+package es.jdl.holydayapi.rest;
 
 import es.jdl.holydayapi.domain.City;
 import es.jdl.holydayapi.domain.Country;
 import es.jdl.holydayapi.domain.Province;
-import es.jdl.holydayapi.services.persistence.HolydayDao;
+import es.jdl.holydayapi.persistence.BasicDataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,30 +23,30 @@ import java.util.List;
 public class ListDataService {
 
     @Autowired
-    private HolydayDao holydayDao;
+    private BasicDataMapper dao;
 
     @GetMapping (path = "/country")
     public List<Country> getAllCountries() {
-        return holydayDao.selectAllCountries();
+        return dao.selectAllCountries();
     }
 
     @GetMapping (path = "/province/country/{countryCode}")
     public List<Province> getProvinceFromCountry(@NotNull @PathVariable String countryCode) {
-        return holydayDao.selectProvinceByCountryCode(countryCode.toUpperCase());
+        return dao.selectProvinceByCountryCode(countryCode.toUpperCase());
     }
 
     @GetMapping (path = "/province/name/{name}")
     public Province getProvinceFromName(@NotNull @PathVariable String name) {
-        return holydayDao.selectProvinceByName(name.toUpperCase());
+        return dao.selectProvinceByName(name.toUpperCase());
     }
 
     @GetMapping (path = "/city/privince/{provinceCode}")
     public List<City> getCitiesFromProvince(@Digits (integer = 2 , fraction = 0) @PathVariable String provinceCode) {
-        return holydayDao.selectCityByProvCode(provinceCode);
+        return dao.selectCityByProvCode(provinceCode);
     }
 
     @GetMapping (path = "/city/name/{name}")
     public City findCityByName(@NotNull @PathVariable String name) {
-        return holydayDao.selectCityByName(name);
+        return dao.selectCityLikeName(name);
     }
 }

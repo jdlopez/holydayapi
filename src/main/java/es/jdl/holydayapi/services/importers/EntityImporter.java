@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface EntityImporter<T> {
 
+    List<T> readFromSource() throws ImportException;
 }
