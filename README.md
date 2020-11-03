@@ -1,12 +1,14 @@
 # HOLYDAY API
 
-Holyday REST API. You can obtain a list of days excluded from work-calendar.
+Holyday REST API. Service to get a list of days excluded from work-calendar.
 
-Deployed as Google Application Engine (Standard) Web Application.
+> Because new Google's policy about GAE apps, no free of charge apps. Instead of blocking app if your quota goes out it charges you with the excess :-(
 
-You can check it at: [https://holydayapi.appspot.com/holydays](https://holydayapi.appspot.com/holydays)
+> I ported into heroku platform: [https://heroku.com/](https://heroku.com/)
 
-Actual focus: Spanish holydays
+Fully functional test environment: check it at: [https://holydayapi.herokuapp.com/](https://holydayapi.herokuapp.com/)
+
+Actual focus: **Spanish holydays**
 
 ## Español
 
@@ -17,13 +19,25 @@ No para llamadas directas.
 
 _Prefijo para todas las llamadas:_
  
-    https://holydayapi.appspot.com/
+    https://holydayapi.herokuapp.com/
     
-* **/holydays** consulta las vacaciones disponibles, tiene varios parámetros
-    - year : año de consulta, si no se especifica, toma el actual
-    - country: código iso del país a consultar (por defecto ES)
-    - province: código INE de la provincia, incluye también los festivos nacionales (en realidad los fija la Comunidad Autónoma)
-    - city: código INE del municipio, se incluyen festivos nacionales y de la C.A.
+* **/holydays** consulta las vacaciones disponibles, dos formas principales:
+
+* **/holydays/city/_nombre_** consulta por nombre de la ciudad _(atención: es literal)_
+
+* **/holydays/city_code/_code_** consulta por nombre codigo INE del municipio
+
+En ambos casos se acepta el sufijo **/year/_año_**
+
+Ej.: 
+
+    /holydays/city_code/50297/year/2019
+    
+Mostrará los días festivos correspondientes a la ciudad de Zaragoza, incluidos nacionales y de Aragón.
+
+---
+
+Los _"datos maestros"_ también se pueden consultar:
     
 * **/list/country**    consulta los paises. La lista se obtiene de los códigos de Locale de Java (guardados en bbdd)
     
@@ -51,6 +65,8 @@ _Prefijo para todas las llamadas:_
 
 ## Test configuration
 
+### Para Google Application Engine:
+
 https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyservice-to-work-with-emulator-applies-to-v6
 
     gcloud components install cloud-datastore-emulator
@@ -62,7 +78,7 @@ https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyserv
 >**watchout** "The Google Cloud Datastore emulator requires a Java 7+ JRE installed and on your system PATH" 
 **1.8 not 10 or 11**
     
-## Data sources
+## Open Data. Sources
 
 * Calendarios CCAA (en PDF):
 
@@ -110,6 +126,6 @@ http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.as
 
 > Sustituido por versiones locales:
 >
+> * [CCAA](data/comunidades_autonomas.json)
 > * [provincias](data/provincias.json)
 > * [municipios](data/municipios.json)
-    

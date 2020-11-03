@@ -40,4 +40,32 @@ public interface HolydayMapper {
             "</script>"
     })
     int checkExists(Holyday h);
+
+    @Select("select region as code, r.name as name, count(*) as count " +
+            "from holyday h join region r on h.region = r.code " +
+            "where city is null " +
+            "and extract(YEAR from day) = #{year} " +
+            "group by region, r.name " +
+            "order by region")
+    List<CodeCount> selectCountHolydaysRegion(int year);
+
+    @Select("select city as code, c.name as name, count(*) as count " +
+            "from holyday h join city c on h.city = c.code " +
+            "where extract(YEAR from day) = #{year} " +
+            "group by city, c.name order by city")
+    List<CodeCount> selectCountHolydaysCities(int year);
+
+    @Select("select country as code, c.name as name, count(*) as count " +
+            "from holyday h join country c on h.country = c.code " +
+            "where city is null and region is null " +
+            "and extract(YEAR from day) = #{year} " +
+            "group by country, c.name order by country")
+    List<CodeCount> selectCountHolydaysCountry(int year);
+
+    public class CodeCount {
+        public String code;
+        public String name;
+        public int count;
+    }
+
 }
