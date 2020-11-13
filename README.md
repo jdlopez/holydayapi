@@ -1,6 +1,6 @@
-# HOLYDAY API
+# HOLIDAY API
 
-Holyday REST API. Service to get a list of days excluded from work-calendar.
+Holiday REST API. Service to get a list of days excluded from work-calendar.
 
 > Because new Google's policy about GAE apps, no free of charge apps. Instead of blocking app if your quota goes out it charges you with the excess :-(
 
@@ -8,7 +8,7 @@ Holyday REST API. Service to get a list of days excluded from work-calendar.
 
 Fully functional test environment: check it at: [https://holydayapi.herokuapp.com/](https://holydayapi.herokuapp.com/)
 
-Actual focus: **Spanish holydays**
+Actual focus: **Spanish holidays**
 
 ## Español
 
@@ -21,17 +21,17 @@ _Prefijo para todas las llamadas:_
  
     https://holydayapi.herokuapp.com/
     
-* **/holydays** consulta las vacaciones disponibles, dos formas principales:
+* **/holidays** consulta las vacaciones disponibles, dos formas principales:
 
-* **/holydays/city/_nombre_** consulta por nombre de la ciudad _(atención: es literal)_
+* **/holidays/city/_nombre_** consulta por nombre de la ciudad _(atención: es literal)_
 
-* **/holydays/city_code/_code_** consulta por nombre codigo INE del municipio
+* **/holidays/city_code/_code_** consulta por nombre codigo INE del municipio
 
 En ambos casos se acepta el sufijo **/year/_año_**
 
 Ej.: 
 
-    /holydays/city_code/50297/year/2019
+    /holidays/city_code/50297/year/2019
     
 Mostrará los días festivos correspondientes a la ciudad de Zaragoza, incluidos nacionales y de Aragón.
 
@@ -129,3 +129,7 @@ http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.as
 > * [CCAA](data/comunidades_autonomas.json)
 > * [provincias](data/provincias.json)
 > * [municipios](data/municipios.json)
+
+## Configuracíón analytics
+
+    https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
