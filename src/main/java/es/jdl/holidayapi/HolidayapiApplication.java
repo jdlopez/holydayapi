@@ -1,5 +1,6 @@
 package es.jdl.holidayapi;
 
+import es.jdl.analytics.CollectFilter;
 import es.jdl.holidayapi.domain.AppStatus;
 import es.jdl.web.BasicAuthenticationFilter;
 import org.flywaydb.core.Flyway;
@@ -35,6 +36,18 @@ public class HolidayapiApplication {
         registrationBean.addInitParameter("user", "admin");
         registrationBean.addInitParameter("password", System.getenv("ADMIN_PASS"));
         registrationBean.addUrlPatterns("/admin/*");
+
+        return registrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<CollectFilter> analyticsFilter() {
+        FilterRegistrationBean<CollectFilter> registrationBean
+                = new FilterRegistrationBean<>();
+
+        registrationBean.setFilter(new CollectFilter());
+        registrationBean.addInitParameter("trackId", System.getenv("trackId"));
+        registrationBean.addUrlPatterns("/holidays/*", "/info/*", "/list/*");
 
         return registrationBean;
     }

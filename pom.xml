@@ -57,6 +57,11 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.11.3</version>
 		</dependency>
+		<dependency>
+			<groupId>io.github.jdlopez</groupId>
+			<artifactId>analyticsfilter</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 
 		<!-- Tests -->
 		<dependency>
