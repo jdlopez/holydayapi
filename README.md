@@ -133,3 +133,11 @@ http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.as
 ## Configuracíón analytics
 
     https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
+    
+## Deployment (heroku)
+
+Just use standard git:
+
+    https://devcenter.heroku.com/articles/git
+    
+    git push heroku master
