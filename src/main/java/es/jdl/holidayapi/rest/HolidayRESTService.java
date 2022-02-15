@@ -1,8 +1,6 @@
 package es.jdl.holidayapi.rest;
 
-import es.jdl.holidayapi.domain.City;
-import es.jdl.holidayapi.domain.Holiday;
-import es.jdl.holidayapi.domain.Region;
+import es.jdl.holidayapi.domain.*;
 import es.jdl.holidayapi.persistence.HolidayMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +19,17 @@ public class HolidayRESTService {
 
     @Autowired
     private HolidayMapper dao;
+
+    @GetMapping (path = {
+            "/country_code/{countryCode}",
+            "/country_code/{countryCode}/year/{year}",
+    })
+    public List<Holiday> findByCountry(@NotNull @PathVariable String countryCode, @PathVariable(required = false) Integer year) {
+        Country country = dao.selectCountryByCode(countryCode);
+        if (country == null)
+            throw new RuntimeException(countryCode + " not found");
+        return findHolidaysByCountry(country, year);
+    }
 
     @GetMapping (path = {
             "/city/{cityName}",
@@ -44,6 +53,7 @@ public class HolidayRESTService {
         return findHolidays(city, year);
     }
 
+
     protected List<Holiday> findHolidays(City city, Integer year) {
         Region region = dao.selectRegionByProvinceCode(city.getProvinceCode());
         if (region == null)
@@ -56,5 +66,15 @@ public class HolidayRESTService {
 
         return dao.selectHolidayByCityAndDate(city, LocalDate.of(year,1, 1),
                 LocalDate.of(year,12, 31), region.getCode(), region.getCountryCode());
+    }
+
+    protected List<Holiday> findHolidaysByCountry(Country country, Integer year) {
+
+        if (year == null) {
+            Calendar cal = Calendar.getInstance();
+            year = cal.get(Calendar.YEAR);
+        }
+        DateInterval interval = new DateInterval (LocalDate.of(year,1, 1), LocalDate.of(year,12, 31));
+        return dao.selectHolidayByCountryAndDate(country.getCode(), interval);
     }
 }

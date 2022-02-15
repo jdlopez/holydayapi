@@ -1,8 +1,6 @@
 package es.jdl.holidayapi.persistence;
 
-import es.jdl.holidayapi.domain.City;
-import es.jdl.holidayapi.domain.Holiday;
-import es.jdl.holidayapi.domain.Region;
+import es.jdl.holidayapi.domain.*;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -24,6 +22,11 @@ public interface HolidayMapper {
             "or (country=#{countryCode} and region is null and city is null) ) " +
             "order by day")
     List<Holiday> selectHolidayByCityAndDate(City city, LocalDate from, LocalDate to, String regionCode, String countryCode);
+
+    @Select("select * from holyday where day >=#{fromTo.from} " +
+            "and day <=#{fromTo.to} and country=#{countryCode} and region is null and city is null " +
+            "order by day")
+    List<Holiday> selectHolidayByCountryAndDate(String code, DateInterval fromTo);
 
     @Select("select distinct r.* from region r join province p on r.code = p.regionCode where p.code = #{provinceCode}")
     Region selectRegionByProvinceCode(String provinceCode);
@@ -64,6 +67,10 @@ public interface HolidayMapper {
 
     @Select("select * from city where code = #{cityCode}")
     City selectCityByCode(String cityCode);
+
+    @Select("select * from country where code = #{countryCode}")
+    Country selectCountryByCode(String countryCode);
+
 
     public class CodeCount {
         public String code;
