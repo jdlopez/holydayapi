@@ -25,7 +25,7 @@ public class HolidayRESTService {
             "/country_code/{countryCode}/year/{year}",
     })
     public List<Holiday> findByCountry(@NotNull @PathVariable String countryCode, @PathVariable(required = false) Integer year) {
-        Country country = dao.selectCountryByCode(countryCode);
+        Country country = dao.selectCountryByCode(countryCode.toUpperCase());
         if (country == null)
             throw new RuntimeException(countryCode + " not found");
         return findHolidaysByCountry(country, year);

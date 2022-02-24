@@ -55,7 +55,7 @@
 		<dependency><!-- web scrapper -->
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.11.3</version>
+			<version>1.14.2</version>
 		</dependency>
 
 
@@ -91,6 +91,11 @@
 				<groupId>com.heroku.sdk</groupId>
 				<artifactId>heroku-maven-plugin</artifactId>
 				<version>3.0.3</version>
+				<configuration>
+					<processTypes>
+						<web>java $JAVA_OPTS -cp target/classes:target/dependency/* es.jdl.holidayapi.HolidayapiApplication</web>
+					</processTypes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -24,7 +24,7 @@ public interface HolidayMapper {
     List<Holiday> selectHolidayByCityAndDate(City city, LocalDate from, LocalDate to, String regionCode, String countryCode);
 
     @Select("select * from holyday where day >=#{fromTo.from} " +
-            "and day <=#{fromTo.to} and country=#{countryCode} and region is null and city is null " +
+            "and day <=#{fromTo.to} and country=#{code} and region is null and city is null " +
             "order by day")
     List<Holiday> selectHolidayByCountryAndDate(String code, DateInterval fromTo);
 
