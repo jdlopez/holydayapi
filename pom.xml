@@ -48,8 +48,8 @@
 
 		<dependency>
 			<groupId>io.github.jdlopez</groupId>
-			<artifactId>basicauthfilter</artifactId>
-			<version>1.0.0</version>
+			<artifactId>miscservletfilter</artifactId>
+			<version>1.0.2</version>
 		</dependency>
 
 		<dependency><!-- web scrapper -->
@@ -57,11 +57,7 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.11.3</version>
 		</dependency>
-		<dependency>
-			<groupId>io.github.jdlopez</groupId>
-			<artifactId>analyticsfilter</artifactId>
-			<version>1.0.0</version>
-		</dependency>
+
 
 		<!-- Tests -->
 		<dependency>

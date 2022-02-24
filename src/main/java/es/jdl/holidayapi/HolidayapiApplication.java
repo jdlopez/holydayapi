@@ -1,8 +1,9 @@
 package es.jdl.holidayapi;
 
 import es.jdl.analytics.CollectFilter;
+import es.jdl.auth.BasicAuthenticationFilter;
 import es.jdl.holidayapi.domain.AppStatus;
-import es.jdl.web.BasicAuthenticationFilter;
+import es.jdl.security.BlockingFilter;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -28,6 +29,7 @@ public class HolidayapiApplication {
 
     @Bean
     public FilterRegistrationBean<BasicAuthenticationFilter> authFilter() {
+
         FilterRegistrationBean<BasicAuthenticationFilter > registrationBean
                 = new FilterRegistrationBean<>();
 
@@ -49,6 +51,14 @@ public class HolidayapiApplication {
         registrationBean.addInitParameter("trackId", System.getenv("trackId"));
         registrationBean.addUrlPatterns("/holidays/*", "/info/*", "/list/*");
 
+        return registrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<BlockingFilter> blockingFilter() {
+	    FilterRegistrationBean<BlockingFilter> registrationBean = new FilterRegistrationBean<>();
+	    registrationBean.setFilter(new BlockingFilter());
+        registrationBean.addUrlPatterns("/holidays/*");
         return registrationBean;
     }
 
