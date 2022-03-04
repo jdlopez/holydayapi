@@ -27,7 +27,7 @@ values
 -- galicia
 insert into configuration (entryKey, entryValue)
 values
-    ('galicia.dateFormat', 'dd/MM/yyyy'),
+    ('º.dateFormat', 'dd/MM/yyyy'),
     ('galicia.charSet', 'iso-8859-1'),
     ('galicia.delimiter', ';'),
     ('galicia.minColumns', '5'),

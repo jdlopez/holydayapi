@@ -68,3 +68,11 @@ values
     ('scrap_zaragoza.region', '02'),
     ('scrap_zaragoza.city', '50297')
 ;
+
+insert into configuration (entryKey, entryValue)
+values
+    ('scrap_madrid.url', 'https://calendarios.ideal.es/laboral/comunidad-de-madrid/madrid/madrid'),
+    ('scrap_madrid.country', 'ES'),
+    ('scrap_madrid.region', '13'),
+    ('scrap_madrid.city', '28079')
+;
