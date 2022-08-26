@@ -2,6 +2,12 @@
 
 Holiday REST API. Service to get a list of days excluded from work-calendar.
 
+**Bad news since 2022-08. Heroku is no longer free so active API will be disabeled. Code is valid anyway so you can build and install in your own infraestructure.**
+
+**If I find an alternative I'll post it here.**
+
+**See you soon**
+
 > Because new Google's policy about GAE apps, no free of charge apps. Instead of blocking app if your quota goes out it charges you with the excess :-(
 
 > I ported into heroku platform: [https://heroku.com/](https://heroku.com/)
@@ -14,8 +20,10 @@ Actual focus: **Spanish holidays**
 
 API para la consulta de calendarios laborales desplegado en un entorno abierto y gratuito.
 
-> Si se abusa del uso tendré que limitarlo, por favor úsalo como fuente para tu propio almacenamiento.
-No para llamadas directas.
+> Malas noticas desde 2022-08. Heroku ha desactivado la capa gratuita. El código sigue disponible y se puede instalar en vuestra propia casa.
+> Si encuentro una alternativa lo publicaré aquí también.
+
+> Si se abusa del uso tendré que limitarlo, por favor úsalo como fuente para tu propio almacenamiento. No para llamadas directas.
 
 _Prefijo para todas las llamadas:_
  
