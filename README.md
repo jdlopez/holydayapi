@@ -2,32 +2,30 @@
 
 Holiday REST API. Service to get a list of days excluded from work-calendar.
 
-**Bad news since 2022-08. Heroku is no longer free so active API will be disabeled. Code is valid anyway so you can build and install in your own infraestructure.**
+> New test server active. Please don't stress the service otherwise it will be stopped
 
-**If I find an alternative I'll post it here.**
-
-**See you soon**
-
-> Because new Google's policy about GAE apps, no free of charge apps. Instead of blocking app if your quota goes out it charges you with the excess :-(
-
-> I ported into heroku platform: [https://heroku.com/](https://heroku.com/)
-
-Fully functional test environment: check it at: [https://holydayapi.herokuapp.com/](https://holydayapi.herokuapp.com/)
+http://jesusdavidlopez.hopto.org/holidayapi/
 
 Actual focus: **Spanish holidays**
+
+## mini roadmap
+
+* undersize application memory and process
+* changed deployment to undertow
+* changed database to H2
+* upgrade some libraries and clear some configuration
 
 ## Español
 
 API para la consulta de calendarios laborales desplegado en un entorno abierto y gratuito.
 
-> Malas noticas desde 2022-08. Heroku ha desactivado la capa gratuita. El código sigue disponible y se puede instalar en vuestra propia casa.
-> Si encuentro una alternativa lo publicaré aquí también.
-
+> Nuevo servidor de pruebas, enlace: http://jesusdavidlopez.hopto.org/holidayapi/
+> 
 > Si se abusa del uso tendré que limitarlo, por favor úsalo como fuente para tu propio almacenamiento. No para llamadas directas.
 
 _Prefijo para todas las llamadas:_
  
-    https://holydayapi.herokuapp.com/
+    http://jesusdavidlopez.hopto.org/holidayapi/
     
 * **/holidays** consulta las vacaciones disponibles, dos formas principales:
 
@@ -71,21 +69,6 @@ Los _"datos maestros"_ también se pueden consultar:
     }
     
 
-## Test configuration
-
-### Para Google Application Engine:
-
-https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyservice-to-work-with-emulator-applies-to-v6
-
-    gcloud components install cloud-datastore-emulator
-    
-    gcloud beta emulators datastore start --host-port=localhost:8484 --data-dir=./target/data
-    
-    mvn appengine:run
-    
->**watchout** "The Google Cloud Datastore emulator requires a Java 7+ JRE installed and on your system PATH" 
-**1.8 not 10 or 11**
-    
 ## Open Data. Sources
 
 * Calendarios CCAA (en PDF):
@@ -142,10 +125,3 @@ http://ovc.catastro.meh.es/ovcservweb/ovcswlocalizacionrc/ovccallejerocodigos.as
 
     https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
     
-## Deployment (heroku)
-
-Just use standard git:
-
-    https://devcenter.heroku.com/articles/git
-    
-    git push heroku master

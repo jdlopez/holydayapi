@@ -112,7 +112,7 @@ Data;Descrici�n;�mbito;id_municipio;concello
             if (h.getType().equals(HolidayType.LOCAL) || h.getType().equals(HolidayType.REGION)) {
                 h.setRegion(GALICIA_REGION);
             }
-            dao.insertHolyday(h);
+            dao.insertHoliday(h);
         }
     }
 
@@ -147,7 +147,7 @@ Data;Descrici�n;�mbito;id_municipio;concello
                 h.setRegion(MADRID_REGION);
             }
             System.out.println(h);
-            dao.insertHolyday(h);
+            dao.insertHoliday(h);
         }
     }
 
@@ -209,7 +209,7 @@ Data;Descrici�n;�mbito;id_municipio;concello
                             continue;
                         }
                         System.out.println(h);
-                        dao.insertHolyday(h);
+                        dao.insertHoliday(h);
                     } // existe festivo
                 }
             }

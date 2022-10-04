@@ -1,4 +1,4 @@
-/* tranformado en postgresql */
+/* tranformado en H2 */
 
 create table country (
 code varchar(2) not null primary key, -- iso
@@ -26,8 +26,8 @@ create table city (
     provinceCode varchar(2) not null references province(code)
 );
 
-create table holyday (
-    id SERIAL primary key,
+create table holiday (
+    id int generated always as identity primary key,
     day date not null,
     name varchar(100) not null,
     city varchar(5) null references city(code),

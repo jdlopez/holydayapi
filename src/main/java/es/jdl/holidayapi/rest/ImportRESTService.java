@@ -164,7 +164,7 @@ public class ImportRESTService {
         // todo no funciona ON CONFLICT DO NOTHING y el unique index :-(
         int count = dao.checkExists(h);
         if (count == 0)
-            return dao.insertHolyday(h);
+            return dao.insertHoliday(h);
         else
             return 0;
     }

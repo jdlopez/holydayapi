@@ -54,14 +54,6 @@ public class HolidayapiApplication {
         return registrationBean;
     }
 
-    @Bean
-    public FilterRegistrationBean<BlockingFilter> blockingFilter() {
-	    FilterRegistrationBean<BlockingFilter> registrationBean = new FilterRegistrationBean<>();
-	    registrationBean.setFilter(new BlockingFilter());
-        registrationBean.addUrlPatterns("/holidays/*");
-        return registrationBean;
-    }
-
     @Autowired
     private DataSource dataSource;
 
