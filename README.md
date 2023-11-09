@@ -2,11 +2,9 @@
 
 Holiday REST API. Service to get a list of days excluded from work-calendar.
 
-> New test server active. Please don't stress the service otherwise it will be stopped
-
-http://jesusdavidlopez.hopto.org/holidayapi/
-
 Actual focus: **Spanish holidays**
+
+> Changed from API to json repositories: https://github.com/jdlopez/open-data/tree/main/data/holidays/spain
 
 ## mini roadmap
 
@@ -19,55 +17,7 @@ Actual focus: **Spanish holidays**
 
 API para la consulta de calendarios laborales desplegado en un entorno abierto y gratuito.
 
-> Nuevo servidor de pruebas, enlace: http://jesusdavidlopez.hopto.org/holidayapi/
-> 
-> Si se abusa del uso tendré que limitarlo, por favor úsalo como fuente para tu propio almacenamiento. No para llamadas directas.
-
-_Prefijo para todas las llamadas:_
- 
-    http://jesusdavidlopez.hopto.org/holidayapi/
-    
-* **/holidays** consulta las vacaciones disponibles, dos formas principales:
-
-* **/holidays/city/_nombre_** consulta por nombre de la ciudad _(atención: es literal)_
-
-* **/holidays/city_code/_code_** consulta por nombre codigo INE del municipio
-
-En ambos casos se acepta el sufijo **/year/_año_**
-
-Ej.: 
-
-    /holidays/city_code/50297/year/2019
-    
-Mostrará los días festivos correspondientes a la ciudad de Zaragoza, incluidos nacionales y de Aragón.
-
----
-
-Los _"datos maestros"_ también se pueden consultar:
-    
-* **/list/country**    consulta los paises. La lista se obtiene de los códigos de Locale de Java (guardados en bbdd)
-    
-    {
-    "iso": "ES",
-    "name": "SPAIN"
-    }
-    
-* **/list/province**   consulta las provincias de España. Con su código del INE
-
-    {
-    "code": "02",
-    "name": "ALBACETE",
-    "country": "ES"
-    }
-
-* **/list/city**       consulta los municipios (no sólo ciudades) de una provincia. Hay que incluir un parameter _'prov'_
-
-    {
-    "code": "02001",
-    "name": "ABENGIBRE"
-    "province": "02",
-    }
-    
+> Cambiada la idea para no depender de un hosting: repositorio de ficheros JSON en esta repo de github: https://github.com/jdlopez/open-data/tree/main/data/holidays/spain
 
 ## Open Data. Sources
 
